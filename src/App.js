@@ -1,37 +1,49 @@
 import "./App.css";
-import NavButton from "./features/components/atoms/button/NavButton";
-import TitleButton from "./features/components/atoms/button/TitleButton";
-import { Button } from "@mui/material";
 import React from "react";
-import BaseButton from "./features/components/atoms/button/BaseButton";
 import Calendar from "./features/components/atoms/calendar/Calendar";
-import SubTitle from "./features/components/atoms/textarea/SubTitle";
-import SubText from "./features/components/atoms/textarea/SubText";
-import IntText from "./features/components/atoms/textarea/IntText";
 import SubDiary from "./features/components/molecules/SubDiary";
 import DiaryModal from "./features/components/atoms/modal/DiaryModal";
-import Rich from "./features/components/atoms/texteditor/Rich";
-import Tweet from "./features/components/atoms/texteditor/Tweet";
 import MainDiary from "./features/components/molecules/MainDiary";
+import BaseNavbar from "./features/components/molecules/BaseNavbar";
+import styled from "styled-components";
+import Grid from "@material-ui/core/Grid";
 
 const App = () => {
   return (
     <>
-      <TitleButton>タイトル</TitleButton>
-      <NavButton>ログイン</NavButton>
-      <NavButton>登録</NavButton>
-      <NavButton>機能</NavButton>
-      <br />
-      <DiaryModal />
-
-      {/* <Rich /> */}
-      {/* <Tweet /> */}
-      <br />
-      <br />
-      <div style={{ padding: "20px" }}></div>
-      <MainDiary />
+      <BaseNavbar />
+      <StylePosition>
+        <Grid container alignItems="center" spacing={2}>
+          <Grid item xs={12} sm={6} lg={3}>
+            <Calendar />
+          </Grid>
+          <Grid item xs={12} sm={6} lg={3}>
+            <SubDiary />
+          </Grid>
+          <Grid item xs={12} sm={6} lg={3}>
+            <SubDiary />
+          </Grid>
+          <Grid item xs={12} sm={6} lg={3}>
+            <SubDiary />
+          </Grid>
+        </Grid>
+        <DiaryModal />
+        <div style={{ margin: "20px", padding: "20px 0px" }}>
+          <MainDiary />
+        </div>
+      </StylePosition>
     </>
   );
 };
 
+const StylePosition = styled.div`
+  margin-top: 80px;
+  max-width: 1280px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  @media (max-width: 1280px) {
+    max-width: 660px;
+  }
+`;
 export default App;

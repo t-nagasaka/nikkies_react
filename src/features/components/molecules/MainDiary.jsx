@@ -12,15 +12,15 @@ const MainDiary = () => {
       <br />
       <br />
       <MainTag>Main</MainTag>
-      <MainTextArea minHight={"250px"} />
-      <StylePositon>
-        <BaseButton>保存</BaseButton>
-      </StylePositon>
+      <MainTextArea minHight={"400px"} />
+      <StylePosition>
+        <BaseButton>save</BaseButton>
+      </StylePosition>
     </>
   );
 };
 
-const StylePositon = styled.div`
+const StylePosition = styled.div`
   position: relative;
   top: 10px;
   display: flex;

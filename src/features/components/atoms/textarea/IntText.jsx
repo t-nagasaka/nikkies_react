@@ -6,7 +6,7 @@ const IntText = () => {
     <>
       <StyledTextField
         id="outlined-number"
-        label="day"
+        label="Day"
         defaultValue="0"
         type="number"
         // variant="filled"

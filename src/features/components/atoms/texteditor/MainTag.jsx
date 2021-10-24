@@ -17,7 +17,9 @@ const StyleEditorTag = styled.span`
   border: 1px solid #ddd;
   border-radius: 10px 10px 0 0;
   font-size: 16px;
-  color: #5890ff;
+  color: white;
+  font-weight: bold;
+  background-color: #5890ff;
 `;
 
 export default MainTag;

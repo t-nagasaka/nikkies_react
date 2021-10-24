@@ -7,26 +7,42 @@ import styled from "styled-components";
 const SubDiary = () => {
   return (
     <>
-      <IntText />
-      <StyledSpan>
-        <SubTitle />
-      </StyledSpan>
-      <br />
-      <StyledDiv>
-        <SubText />
-      </StyledDiv>
+      <StylePosition>
+        <StyleDateSpan>
+          <IntText />
+        </StyleDateSpan>
+        <StyleTitleSpan>
+          <SubTitle />
+        </StyleTitleSpan>
+      </StylePosition>
+      <StylePosition>
+        <StyleDiv>
+          <SubText />
+        </StyleDiv>
+      </StylePosition>
     </>
   );
 };
 
-const StyledDiv = styled.div`
+const StylePosition = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+`;
+
+const StyleDiv = styled.div`
   position: relative;
   bottom: 1px;
 `;
 
-const StyledSpan = styled.span`
+const StyleDateSpan = styled.span`
   position: relative;
-  right: 1px;
+  left: 0.5px;
+`;
+const StyleTitleSpan = styled.span`
+  position: relative;
+  right: 0.5px;
 `;
 
 export default SubDiary;

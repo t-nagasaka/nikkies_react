@@ -8,13 +8,13 @@ const BaseButton = (props) => {
 const StyleButton = styled.button`
   position: relative;
   display: inline-block;
-  background-color: white;
-  border: 1px solid #ddd;
+  background-color: #5890ff;
+  border: none;
   font-weight: 600;
   padding: 10px 40px;
   cursor: pointer;
   transition: all 0.3s;
-  color: #666;
+  color: white;
   box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.4);
   border-radius: 7px;
   &:hover {

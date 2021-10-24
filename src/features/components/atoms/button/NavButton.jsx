@@ -6,22 +6,20 @@ const NavButton = (props) => {
 };
 
 const StyleButton = styled.button`
+  padding: 10px 15px;
+  font-size: 20px;
+  background-color: rgba(0, 0, 0, 0);
+  /* padding: 0; */
   position: relative;
   display: inline-block;
-  background-color: white;
   border: none;
-  font-weight: 600;
-  padding: 10px 40px;
-  margin: 10px auto;
+  font-weight: 100;
   cursor: pointer;
   transition: all 0.3s;
-  color: black;
+  color: #fff;
   &:hover {
-    color: white;
-    background-color: #000000;
-    transform: translate(2px, 2px);
+    transform: translate(-5px, -5px);
     box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.8);
-    /* box-shadow: 2px 2px 0 0 black; */
     &:active {
       box-shadow: none;
       position: relative;

@@ -7,7 +7,7 @@ const SubText = () => {
       <StyledTextField
         id="filled-multiline-static"
         multiline
-        rows={4}
+        rows={7}
         defaultValue="Default Value"
         // variant="filled"
         color="primary"
@@ -15,7 +15,7 @@ const SubText = () => {
           readOnly: true,
         }}
         //   幅調整
-        style={{ width: 242 }}
+        style={{ width: 282 }}
       />
     </>
   );

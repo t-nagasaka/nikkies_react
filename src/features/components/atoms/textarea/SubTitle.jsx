@@ -8,13 +8,13 @@ const SubTitle = () => {
         // focused
         // color="primary"
         id="outlined-read-only-input"
-        label="title"
+        label="Title"
         defaultValue="Hello World"
         InputProps={{
           readOnly: true,
         }}
         //   幅調整
-        style={{ width: 170 }}
+        style={{ width: 210 }}
       />
     </>
   );
