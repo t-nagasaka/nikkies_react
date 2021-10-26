@@ -9,6 +9,7 @@ import styled from "styled-components";
 
 const customStyles = {
   overlay: {
+    zIndex: "3000",
     backgroundColor: "rgba(0,0,0,0.5)",
   },
   content: {
@@ -23,6 +24,7 @@ const customStyles = {
     // transform: "translate(-50%, -50%)",
     // borderRadius: "10px",
     // maxWidth: "720px",
+    zIndex: "10000",
     position: "relative",
     margin: "0 auto",
     top: "auto",
@@ -48,13 +50,17 @@ const StylePosition = styled.div`
 `;
 
 const DiaryModal = () => {
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(true);
+
+  const clickHandle = () => {
+    setShow(!show);
+  };
 
   return (
     <div>
       <Modal isOpen={show} style={customStyles}>
         <StylePosition>
-          <BaseButton>Close</BaseButton>
+          <BaseButton onClick={clickHandle}>Close</BaseButton>
         </StylePosition>
         <ModalTitlesub></ModalTitlesub>
 

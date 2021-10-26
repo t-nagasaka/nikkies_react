@@ -7,11 +7,13 @@ import MainDiary from "./features/components/molecules/MainDiary";
 import BaseNavbar from "./features/components/molecules/BaseNavbar";
 import styled from "styled-components";
 import Grid from "@material-ui/core/Grid";
+import Login from "./features/components/atoms/login/Login";
 
 const App = () => {
   return (
     <>
       <BaseNavbar />
+      <Login />
       <StylePosition>
         <Grid container alignItems="center" spacing={2}>
           <Grid item xs={12} sm={6} lg={3}>

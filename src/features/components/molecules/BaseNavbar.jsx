@@ -8,10 +8,10 @@ const BaseNavbar = () => {
       <div style={{ marginBottom: "10px" }}>
         <StyleBar>
           <StylePosition>
-            <NavButton>Nikkies</NavButton>
+            {/* <NavButton>Nikkies</NavButton>
             <NavButton>About</NavButton>
-            <NavButton>Settings</NavButton>
-            <NavButton>Sin Up</NavButton>
+            <NavButton>Settings</NavButton> */}
+            <NavButton onclick={() => alert("クリック")}>Sin Up</NavButton>
           </StylePosition>
         </StyleBar>
       </div>
