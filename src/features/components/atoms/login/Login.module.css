@@ -1,24 +1,27 @@
 h1 {
-  color: white;
+  color: #5890ff;
   font-weight: normal;
   text-align: center;
-  margin: 30px 0px 20px 0px;
-  font-family: "Comic Neue", cursive;
+  margin: 10px 0px 50px 0px;
+  font-weight: 600;
+  /* font-family: "Comic Neue", cursive; */
 }
 span {
-  color: white;
+  color: 5890ff;
   font-size: 15px;
-  font-family: "Comic Neue", cursive;
+  /* font-family: "Comic Neue", cursive; */
 }
 .containerLogin {
-  background-color: #292f38;
+  /* background-color: #292f38; */
+  background-color: rgba(0, 0, 0, 0.5);
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .appLogin {
-  background-color: #555555;
+  /* background-color: #555555; */
+  background-color: white;
   width: 25%;
   min-width: 350px;
   height: 450px;
@@ -29,14 +32,18 @@ span {
 
 .inputLog {
   width: 85%;
-  margin: 20px;
-  font-family: "Comic Neue", cursive;
-  background-color: #555555;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  margin-bottom: 40px;
+  /* font-family: "Comic Neue", cursive; */
+  /* background-color: #555555; */
   border: 0;
   outline: 0;
-  border-bottom: 2px solid #333333;
-  font-size: 1.4rem;
-  color: #ccc;
+  border-bottom: 1px solid #333333;
+  font-size: 1.6rem;
+  /* color: #ccc; */
 }
 .switch {
   margin: 20px;

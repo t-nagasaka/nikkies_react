@@ -33,16 +33,18 @@ const StylePosition = styled.div`
 
 const StyleDiv = styled.div`
   position: relative;
-  bottom: 1px;
+  bottom: 0.75px;
 `;
 
 const StyleDateSpan = styled.span`
   position: relative;
   left: 0.5px;
+  top: 0.75px;
 `;
 const StyleTitleSpan = styled.span`
   position: relative;
   right: 0.5px;
+  top: 0.75px;
 `;
 
 export default SubDiary;

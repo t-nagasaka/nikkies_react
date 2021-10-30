@@ -1,4 +1,3 @@
-import { stepLabelClasses } from "@mui/material";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
@@ -19,7 +18,7 @@ export const fetchAsyncLogin = createAsyncThunk("login/post", async (auth) => {
 export const fetchAsyncRegister = createAsyncThunk(
   "login/register",
   async (auth) => {
-    const res = await axios.post(`${apiUrl}api/register`, auth, {
+    const res = await axios.post(`${apiUrl}api/register/`, auth, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -28,8 +27,24 @@ export const fetchAsyncRegister = createAsyncThunk(
   }
 );
 
+export const fetchAsyncGetError = createAsyncThunk(
+  "login/error",
+  async (auth) => {
+    try {
+      const res = await axios.post(`${apiUrl}api/register/`, auth, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      return res;
+    } catch (err) {
+      return err.response.data;
+    }
+  }
+);
+
 export const fetchAsyncProf = createAsyncThunk("login/get", async () => {
-  const res = await axios.get(`${apiUrl}api/user`, {
+  const res = await axios.get(`${apiUrl}api/user/`, {
     headers: {
       Authorization: `JWT ${token}`,
       "Content-Type": "application/json",
@@ -42,36 +57,49 @@ const loginSlice = createSlice({
   // *stateの中身-------------------------
   name: "login",
   initialState: {
-    authne: {
+    authen: {
       username: "",
       password: "",
+      loginstate: false,
     },
     isLoginView: true,
     // ログインしているユーザーの情報をstate
     profile: {
-      id: 0,
+      id: "",
       username: "",
     },
+    error: "",
     // *stateの中身-------------------------
   },
   reducers: {
-    // ユーザーが入力したname内容をStateに反映させる
+    // ユーザーが入力したname内容がactionに入りStateに反映させる
     editUsername(state, action) {
       state.authen.username = action.payload;
     },
-    // ユーザーが入力したpassword内容をStateに反映させる
+    // ユーザーが入力したpassword内容がactionに入りStateに反映させる
     editPassword(state, action) {
       state.authen.password = action.payload;
     },
     toggleMode(state) {
-      stepLabelClasses.isLoginView = !state.isLoginView;
+      state.isLoginView = !state.isLoginView;
+    },
+    editError(state, action) {
+      state.error = action.payload;
     },
   },
   // 認証成功時にトークンの返却及びindex.jsで定義したdiariesへ遷移
   extraReducers: (builder) => {
     builder.addCase(fetchAsyncLogin.fulfilled, (state, action) => {
       localStorage.setItem("localJWT", action.payload.access);
-      action.payload.access && (window.location.href = "/diaries");
+      state.authen.loginstate = true;
+    });
+    builder.addCase(fetchAsyncGetError.fulfilled, (state, action) => {
+      if (
+        action.payload.username[0] ===
+        "この username を持った user が既に存在します。"
+      ) {
+        state.error = "このusernameは既に存在します";
+      }
     });
     builder.addCase(fetchAsyncProf.fulfilled, (state, action) => {
       state.profile = action.payload;
@@ -79,10 +107,12 @@ const loginSlice = createSlice({
   },
 });
 
-export const { editUsername, editPassword, toggleMode } = loginSlice.actions;
-export const selectAuthen = (state) => state.login.authne;
+export const { editUsername, editPassword, toggleMode, editError } =
+  loginSlice.actions;
+export const selectAuthen = (state) => state.login.authen;
 export const selectIsLoginView = (state) => state.login.isLoginView;
 export const selectProfile = (state) => state.login.profile;
+export const selectError = (state) => state.login.error;
 
-// loginSlice全体の返却
+// loginSlice全体の返却(store登録用)
 export default loginSlice.reducer;

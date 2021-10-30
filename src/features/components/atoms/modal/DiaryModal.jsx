@@ -1,8 +1,6 @@
 import { useState } from "react";
 import Modal from "react-modal";
 import BaseButton from "../button/BaseButton";
-import ModalText from "./ModalText";
-import ModalTitle from "./ModalTitle";
 import ModalTitlesub from "./ModalTitlesub";
 import ModalTextsub from "./ModalTextsub";
 import styled from "styled-components";
@@ -63,7 +61,6 @@ const DiaryModal = () => {
           <BaseButton onClick={clickHandle}>Close</BaseButton>
         </StylePosition>
         <ModalTitlesub></ModalTitlesub>
-
         <br />
         <ModalTextsub />
         <br />
