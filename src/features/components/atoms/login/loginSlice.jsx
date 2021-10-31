@@ -53,6 +53,22 @@ export const fetchAsyncProf = createAsyncThunk("login/get", async () => {
   return res.data;
 });
 
+export const fetchAsyncGetTokeState = createAsyncThunk(
+  "verify/post",
+  async () => {
+    const res = await axios.post(
+      `${apiUrl}authen/jwt/verify`,
+      { token: localStorage.localJWT },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return res.data;
+  }
+);
+
 const loginSlice = createSlice({
   // *stateの中身-------------------------
   name: "login",
@@ -60,8 +76,8 @@ const loginSlice = createSlice({
     authen: {
       username: "",
       password: "",
-      loginstate: false,
     },
+    tokenState: false,
     isLoginView: true,
     // ログインしているユーザーの情報をstate
     profile: {
@@ -86,12 +102,18 @@ const loginSlice = createSlice({
     editError(state, action) {
       state.error = action.payload;
     },
+    editLoginStatus(state, action) {
+      state.tokenState = action.payload;
+    },
   },
   // 認証成功時にトークンの返却及びindex.jsで定義したdiariesへ遷移
   extraReducers: (builder) => {
     builder.addCase(fetchAsyncLogin.fulfilled, (state, action) => {
       localStorage.setItem("localJWT", action.payload.access);
-      state.authen.loginstate = true;
+      state.authen.tokenState = true;
+    });
+    builder.addCase(fetchAsyncLogin.rejected, (state, action) => {
+      state.authen.tokenState = false;
     });
     builder.addCase(fetchAsyncGetError.fulfilled, (state, action) => {
       if (
@@ -104,15 +126,27 @@ const loginSlice = createSlice({
     builder.addCase(fetchAsyncProf.fulfilled, (state, action) => {
       state.profile = action.payload;
     });
+    builder.addCase(fetchAsyncGetTokeState.fulfilled, (state, action) => {
+      state.tokenState = true;
+    });
+    builder.addCase(fetchAsyncGetTokeState.rejected, (state, action) => {
+      state.tokenState = false;
+    });
   },
 });
 
-export const { editUsername, editPassword, toggleMode, editError } =
-  loginSlice.actions;
+export const {
+  editUsername,
+  editPassword,
+  toggleMode,
+  editError,
+  editLoginStatus,
+} = loginSlice.actions;
 export const selectAuthen = (state) => state.login.authen;
 export const selectIsLoginView = (state) => state.login.isLoginView;
 export const selectProfile = (state) => state.login.profile;
 export const selectError = (state) => state.login.error;
+export const selectTokenStatus = (state) => state.login.tokenState;
 
 // loginSlice全体の返却(store登録用)
 export default loginSlice.reducer;

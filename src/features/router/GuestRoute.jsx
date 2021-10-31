@@ -1,12 +1,17 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { isAuthSelector } from "../store/auth";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  fetchGetTokenStatus,
+  selectTokenStatus,
+} from "../components/atoms/login/loginSlice";
 
-function GuestRoute(props) {
-  const isAuth = useSelector(isAuthSelector);
+const dispatch = useDispatch();
 
-  return isAuth ? <Redirect to="/" /> : <Route {...props} />;
-}
+export const GuestRoute = async () => {
+  await dispatch(fetchGetTokenStatus());
+  const verifyStatus = useSelector(selectTokenStatus);
+  return verifyStatus && <Redirect to="/diaries" />;
+};
 
 export default GuestRoute;

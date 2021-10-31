@@ -1,17 +1,31 @@
-import React from "react";
 import styled from "styled-components";
 import NavButton from "../atoms/button/NavButton";
+import { useHistory } from "react-router-dom";
 
 const BaseNavbar = () => {
+  const history = useHistory();
   return (
     <>
       <div style={{ marginBottom: "10px" }}>
         <StyleBar>
           <StylePosition>
-            {/* <NavButton>Nikkies</NavButton>
-            <NavButton>About</NavButton>
-            <NavButton>Settings</NavButton> */}
-            <NavButton onclick={() => alert("クリック")}>Sin Up</NavButton>
+            <NavButton
+              onclick={() => {
+                window.scroll({ top: 0, behavior: "smooth" });
+              }}
+            >
+              Nikkies
+            </NavButton>
+            {/* <NavButton>About</NavButton> */}
+            <NavButton>Settings</NavButton>
+            <NavButton
+              onclick={() => {
+                localStorage.setItem("localJWT", "");
+                history.push("/");
+              }}
+            >
+              Logout
+            </NavButton>
           </StylePosition>
         </StyleBar>
       </div>

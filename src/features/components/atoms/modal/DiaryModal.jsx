@@ -32,7 +32,7 @@ const customStyles = {
     padding: "0",
     width: "80%",
     height: "100vh",
-    top: "100px",
+    marginTop: "100px",
     border: "none",
     background: "transparent",
     color: "#000",
@@ -48,7 +48,7 @@ const StylePosition = styled.div`
 `;
 
 const DiaryModal = () => {
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
 
   const clickHandle = () => {
     setShow(!show);

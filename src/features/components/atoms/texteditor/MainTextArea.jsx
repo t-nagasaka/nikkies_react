@@ -3,8 +3,7 @@ import {
   Editor,
   EditorState,
   RichUtils,
-  DraftEditorCommand,
-  convertToRaw,
+  // convertToRaw,
   convertFromRaw,
 } from "draft-js";
 import styled from "styled-components";
@@ -21,10 +20,10 @@ const MainTextArea = (props) => {
 
   const [editorState, setEditorState] = useState(initialState);
 
-  const handleSave = () => {
-    const data = JSON.stringify(convertToRaw(editorState.getCurrentContent()));
-    localStorage.setItem(TEXT_EDITOR_ITEM, data);
-  };
+  // const handleSave = () => {
+  //   const data = JSON.stringify(convertToRaw(editorState.getCurrentContent()));
+  //   localStorage.setItem(TEXT_EDITOR_ITEM, data);
+  // };
   const handleKeyCommand = (DraftEditorCommand) => {
     const newState = RichUtils.handleKeyCommand(
       editorState,
