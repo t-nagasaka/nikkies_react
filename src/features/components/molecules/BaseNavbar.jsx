@@ -17,7 +17,7 @@ const BaseNavbar = () => {
               Nikkies
             </NavButton>
             {/* <NavButton>About</NavButton> */}
-            <NavButton>Settings</NavButton>
+            <NavButton>Edit</NavButton>
             <NavButton
               onclick={() => {
                 localStorage.setItem("localJWT", "");

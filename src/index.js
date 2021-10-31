@@ -8,6 +8,7 @@ import * as serviceWorker from "./serviceWorker";
 import Login from "./features/components/atoms/login/Login";
 import { Route, BrowserRouter, Switch } from "react-router-dom";
 import PrivateRoute from "./features/router/PrivateRoute";
+import Page404 from "./features/components/page/Page404";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -17,6 +18,7 @@ ReactDOM.render(
         <Switch>
           <Route exact path="/" component={Login} />
           <PrivateRoute exact path="/diaries" children={<App />} />
+          <Route exact path="*" component={Page404} />
         </Switch>
       </BrowserRouter>
     </Provider>
