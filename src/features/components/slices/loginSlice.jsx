@@ -44,9 +44,9 @@ export const fetchAsyncGetError = createAsyncThunk(
 );
 
 export const fetchAsyncProf = createAsyncThunk("login/get", async () => {
-  const res = await axios.get(`${apiUrl}api/user/`, {
+  const res = await axios.get(`${apiUrl}api/myprofile/`, {
     headers: {
-      Authorization: `JWT ${token}`,
+      Authorization: `JWT ${localStorage.localJWT}`,
       "Content-Type": "application/json",
     },
   });

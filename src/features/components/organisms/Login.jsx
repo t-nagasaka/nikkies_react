@@ -6,7 +6,7 @@ import styles from "./Login.module.css";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import { useEffect } from "react";
-// import axios from "axios";
+import axios from "axios";
 
 import {
   editUsername,
@@ -23,9 +23,11 @@ import {
   selectTokenStatus,
   fetchAsyncProf,
   editLoginStatus,
-} from "./loginSlice";
+} from "../slices/loginSlice";
 
-import BaseButton from "../button/BaseButton";
+import { saveAsyncMainDiary } from "../slices/DiarySlice";
+
+import BaseButton from "../atoms/button/BaseButton";
 
 const Login = () => {
   // useDispatchのインスタンス化
@@ -65,32 +67,58 @@ const Login = () => {
     verifyStatus && dispatch(editError(""));
   }, [verifyStatus]);
 
-  const testClick = async () => {
-    await dispatch(fetchAsyncGetTokeState());
-    verifyStatus || history.push("/");
+  // const testClick = async () => {
+  //   await dispatch(fetchAsyncGetTokeState());
+  //   verifyStatus || history.push("/");
+  // };
+  const testClick1 = async () => {
+    const params = {
+      display_date: "2021-11-07",
+    };
+    try {
+      const res = await axios.get("http://localhost:8000/api/diary/", {
+        params,
+        headers: {
+          Authorization: `JWT ${localStorage.localJWT}`,
+          "Content-Type": "application/json",
+        },
+      });
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  // const testClick = async () => {
-  //   console.log(localStorage.localJWT);
-  //   try {
-  //     const res = await axios.post(
-  //       "http://localhost:8000/authen/jwt/verify",
-  //       { token: localStorage.localJWT },
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //       }
-  //     );
-  //     console.log(res);
-  //   } catch (err) {
-  //     console.log(err.response.data);
-  //   }
-  // };
+  const testClick2 = async () => {
+    const params = {
+      id: 8,
+      title: "大和撫子",
+      text: "",
+      display_date: "2021-11-07",
+      // created_at: new Date(),
+      // updated_at: new Date(),
+    };
+    try {
+      const res = await axios.put(
+        `http://localhost:8000/api/diary/${params.id}/`,
+        params,
+        {
+          headers: {
+            Authorization: `JWT ${localStorage.localJWT}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div className={styles.containerLogin}>
-      <button onClick={testClick}>テストボタン</button>
+      <button onClick={testClick1}>テストボタン1</button>
+      <button onClick={testClick2}>テストボタン2</button>
       <div className={styles.appLogin}>
         <h1>{isLoginView ? "Login" : "Register"}</h1>
         <span>Username</span>

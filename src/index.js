@@ -5,10 +5,10 @@ import App from "./App";
 import { store } from "./app/store";
 import { Provider } from "react-redux";
 import * as serviceWorker from "./serviceWorker";
-import Login from "./features/components/atoms/login/Login";
+import Login from "./features/components/organisms/Login";
 import { Route, BrowserRouter, Switch } from "react-router-dom";
 import PrivateRoute from "./features/router/PrivateRoute";
-import Page404 from "./features/components/page/Page404";
+import Page404 from "./features/components/pages/Page404";
 
 ReactDOM.render(
   <React.StrictMode>

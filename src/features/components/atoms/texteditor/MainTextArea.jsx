@@ -1,18 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Editor,
   EditorState,
   RichUtils,
-  // convertToRaw,
+  convertToRaw,
   convertFromRaw,
 } from "draft-js";
+import BaseButton from "../button/BaseButton";
 import styled from "styled-components";
 
 const TEXT_EDITOR_ITEM = "draft-js-item";
 
 const MainTextArea = (props) => {
-  const { minHight } = props;
+  const { minHight, textData, onChange } = props;
   const data = localStorage.getItem(TEXT_EDITOR_ITEM);
+  // const data = textData;
 
   const initialState = data
     ? EditorState.createWithContent(convertFromRaw(JSON.parse(data)))
@@ -20,10 +22,12 @@ const MainTextArea = (props) => {
 
   const [editorState, setEditorState] = useState(initialState);
 
-  // const handleSave = () => {
-  //   const data = JSON.stringify(convertToRaw(editorState.getCurrentContent()));
-  //   localStorage.setItem(TEXT_EDITOR_ITEM, data);
-  // };
+  const handleSave = () => {
+    const data = JSON.stringify(convertToRaw(editorState.getCurrentContent()));
+    onChange(data);
+    // localStorage.setItem(TEXT_EDITOR_ITEM, data);
+  };
+
   const handleKeyCommand = (DraftEditorCommand) => {
     const newState = RichUtils.handleKeyCommand(
       editorState,
@@ -44,6 +48,11 @@ const MainTextArea = (props) => {
     e.preventDefault();
     setEditorState(RichUtils.toggleBlockType(editorState, blockType));
   };
+
+  useEffect(() => {
+    const data = JSON.stringify(convertToRaw(editorState.getCurrentContent()));
+    onChange(data);
+  }, [editorState]);
 
   const BLOCK_TYPES = [
     { label: "H1", style: "header-one" },
@@ -105,7 +114,9 @@ const MainTextArea = (props) => {
           onChange={setEditorState}
           handleKeyCommand={handleKeyCommand}
         />
+        {/* {textData} */}
       </StyleTextArea>
+      <BaseButton onClick={handleSave}>保存</BaseButton>
     </>
   );
 };
