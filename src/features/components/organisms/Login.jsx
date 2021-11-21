@@ -92,7 +92,7 @@ const Login = () => {
   const testClick2 = async () => {
     const params = {
       id: 8,
-      title: "大和撫子",
+      title: "yama",
       text: "",
       display_date: "2021-11-07",
       // created_at: new Date(),

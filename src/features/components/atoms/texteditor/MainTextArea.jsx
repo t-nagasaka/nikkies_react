@@ -12,21 +12,52 @@ import styled from "styled-components";
 const TEXT_EDITOR_ITEM = "draft-js-item";
 
 const MainTextArea = (props) => {
-  const { minHight, textData, onChange } = props;
-  const data = localStorage.getItem(TEXT_EDITOR_ITEM);
+  const { minHight, textData, id, onChange } = props;
+  // const data = localStorage.getItem(TEXT_EDITOR_ITEM);
   // const data = textData;
+  // const initData = convertFromRaw(JSON.parse(data));
+  // const initData = convertFromRaw({
+  //   entityMap: {},
+  //   blocks: [
+  //     {
+  //       key: "xxxxxx", // ユニークなキー値
+  //       text: "ここに初期テキストがはいります。", // 任意のテキスト
+  //       type: "unstyled", // テキストのタイプ。初期値は "unstyled"
+  //       depth: 0,
+  //       entityRanges: [],
+  //       inlineStyleRanges: [],
+  //       data: {},
+  //     },
+  //   ],
+  // });
 
-  const initialState = data
-    ? EditorState.createWithContent(convertFromRaw(JSON.parse(data)))
+  // const initialState = EditorState.createWithContent(initData);
+
+  const initialState = textData
+    ? EditorState.createWithContent(convertFromRaw(JSON.parse(textData)))
     : EditorState.createEmpty();
 
   const [editorState, setEditorState] = useState(initialState);
-
+  // const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const handleSave = () => {
     const data = JSON.stringify(convertToRaw(editorState.getCurrentContent()));
     onChange(data);
     // localStorage.setItem(TEXT_EDITOR_ITEM, data);
   };
+
+  // const setTextEditor = (text) => {
+  //   if (text) {
+  //     const data = EditorState.createWithContent(
+  //       convertFromRaw(JSON.parse(text))
+  //     );
+  //     console.log(text);
+  //     setEditorState(data);
+  //   } else {
+  //     EditorState.createEmpty();
+  //   }
+  // };
+
+  // setTextEditor(textData);
 
   const handleKeyCommand = (DraftEditorCommand) => {
     const newState = RichUtils.handleKeyCommand(
@@ -53,6 +84,35 @@ const MainTextArea = (props) => {
     const data = JSON.stringify(convertToRaw(editorState.getCurrentContent()));
     onChange(data);
   }, [editorState]);
+
+  useEffect(() => {
+    if (id) {
+      const data = EditorState.createWithContent(
+        convertFromRaw(JSON.parse(textData))
+      );
+      setEditorState(data);
+    } else {
+      const data = EditorState.createEmpty();
+      setEditorState(data);
+    }
+  }, [id]);
+
+  // const initData = convertFromRaw({
+  //   entityMap: {},
+  //   blocks: [
+  //     {
+  //       key: "xxxxxx", // ユニークなキー値
+  //       text: "ここに初期テキストがはいります。", // 任意のテキスト
+  //       type: "unstyled", // テキストのタイプ。初期値は "unstyled"
+  //       depth: 0,
+  //       entityRanges: [],
+  //       inlineStyleRanges: [],
+  //       data: {},
+  //     },
+  //   ],
+  // });
+
+  // const initState = EditorState.createWithContent(initData);
 
   const BLOCK_TYPES = [
     { label: "H1", style: "header-one" },
@@ -114,9 +174,7 @@ const MainTextArea = (props) => {
           onChange={setEditorState}
           handleKeyCommand={handleKeyCommand}
         />
-        {/* {textData} */}
       </StyleTextArea>
-      <BaseButton onClick={handleSave}>保存</BaseButton>
     </>
   );
 };

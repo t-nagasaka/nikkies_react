@@ -19,16 +19,15 @@ import {
 
 const MainDiary = () => {
   const dispatch = useDispatch();
-  const initialTitle = dispatch(fetchAsyncMainDiary);
   const mainId = useSelector(selectMainId);
   const mainTitle = useSelector(selectMainTitle);
   const mainText = useSelector(selectMainText);
   const mainDate = useSelector(selectCalendarDate);
-  const renderMainTitle = (data) => {
-    dispatch(editMainDiaryTitle(data));
+  const renderMainTitle = async (data) => {
+    await dispatch(editMainDiaryTitle(data));
   };
-  const renderMainText = (data) => {
-    dispatch(editMainDiaryText(data));
+  const renderMainText = async (data) => {
+    await dispatch(editMainDiaryText(data));
   };
   const clickSaveButton = () => {
     const params = {
@@ -41,14 +40,17 @@ const MainDiary = () => {
       ? dispatch(saveAsyncMainDiary(params))
       : dispatch(createAsyncMainDiary(params));
   };
-
+  console.log(mainId);
+  console.log(mainTitle);
+  console.log(mainText);
+  console.log(mainDate);
   return (
     <>
       <MainTag>Title</MainTag>
       <MainTextArea
         textData={mainTitle}
+        id={mainId}
         onChange={renderMainTitle}
-        textData={mainTitle}
       />
       <br />
       <br />
@@ -56,8 +58,8 @@ const MainDiary = () => {
       <MainTextArea
         minHight={"400px"}
         textData={mainText}
+        id={mainId}
         onChange={renderMainText}
-        textData={mainText}
       />
       <StylePosition>
         <BaseButton onClick={clickSaveButton}>save</BaseButton>

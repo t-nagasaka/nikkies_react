@@ -4,13 +4,19 @@ import axios from "axios";
 const apiUrl = "http://localhost:8000/api/diary/";
 const token = localStorage.localJWT;
 
+const date = new Date();
+const year = date.getFullYear();
+const month = ("0" + (date.getMonth() + 1)).slice(-2);
+const day = ("0" + date.getDate()).slice(-2);
+const strDate = `${year}-${month}-${day}`;
+
 export const fetchAsyncMainDiary = createAsyncThunk(
   "mainDiary/get",
   async (date) => {
     const params = {
       display_date: date,
     };
-    const res = await axios.get(`${apiUrl}`, {
+    const res = await axios.get(apiUrl, {
       params,
       headers: {
         Authorization: `JWT ${token}`,
@@ -36,8 +42,8 @@ export const createAsyncMainDiary = createAsyncThunk(
 
 export const saveAsyncMainDiary = createAsyncThunk(
   "mainDiary/put",
-  async (diary) => {
-    const res = await axios.put(apiUrl, diary, {
+  async (params) => {
+    const res = await axios.put(`${apiUrl}${params.id}/`, params, {
       headers: {
         Authorization: `JWT ${token}`,
         "Content-Type": "application/json",
@@ -69,7 +75,7 @@ export const saveAsyncSubDiary = createAsyncThunk(
     const params = {
       display_date: date,
     };
-    const res = await axios.put(apiUrl, params, {
+    const res = await axios.patch(apiUrl, params, {
       headers: {
         Authorization: `JWT ${token}`,
         "Content-Type": "application/json",
@@ -106,7 +112,7 @@ const diarySlice = createSlice({
       text: "",
       openModal: false,
     },
-    calendarDate: "",
+    calendarDate: strDate,
     // *stateの中身-------------------------
   },
   reducers: {
@@ -117,7 +123,6 @@ const diarySlice = createSlice({
     // ユーザーが入力したtext内容がactionに入りStateに反映させる
     editMainDiaryText(state, action) {
       state.mainDiary.text = action.payload;
-      console.log(action.payload);
     },
     // subDiaryの振り返り日数の変更
     editSubDiary01date(state, action) {
@@ -151,26 +156,24 @@ const diarySlice = createSlice({
   // 認証成功時にトークンの返却及びindex.jsで定義したdiariesへ遷移
   extraReducers: (builder) => {
     builder.addCase(fetchAsyncMainDiary.fulfilled, (state, action) => {
-      console.log(action.payload);
       if (action.payload[0]) {
         state.mainDiary.id = action.payload[0]["id"];
         state.mainDiary.title = action.payload[0]["title"];
         state.mainDiary.text = action.payload[0]["text"];
+        state.calendarDate = action.payload[0]["display_date"];
       } else {
         state.mainDiary.id = "";
         state.mainDiary.title = "";
         state.mainDiary.text = "";
       }
-      console.log(action.payload);
     });
     builder.addCase(createAsyncMainDiary.fulfilled, (state, action) => {
-      // !作成中
-      state.mainDiary.title = action.payload;
-      console.log(action);
+      state.mainDiary.id = action.payload.id;
+      console.log(action.payload.id);
     });
     builder.addCase(saveAsyncMainDiary.fulfilled, (state, action) => {
       // !作成中
-      state.mainDiary.title = action.payload;
+      // state.mainDiary.title = action.payload;
       console.log(action);
     });
     builder.addCase(fetchAsyncSubDiary.fulfilled, (state, action) => {
