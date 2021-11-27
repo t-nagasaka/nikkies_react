@@ -4,20 +4,20 @@ import SubText from "../atoms/textarea/SubText";
 import SubTitle from "../atoms/textarea/SubTitle";
 import styled from "styled-components";
 
-const SubDiary = () => {
+const SubDiary = ({ onChange, title, text, defaultValue }) => {
   return (
     <>
       <StylePosition>
         <StyleDateSpan>
-          <IntText />
+          <IntText onChange={onChange} defaultValue={defaultValue} />
         </StyleDateSpan>
         <StyleTitleSpan>
-          <SubTitle />
+          <SubTitle title={title} />
         </StyleTitleSpan>
       </StylePosition>
       <StylePosition>
         <StyleDiv>
-          <SubText />
+          <SubText text={text} />
         </StyleDiv>
       </StylePosition>
     </>

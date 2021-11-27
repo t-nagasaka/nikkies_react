@@ -2,7 +2,6 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const apiUrl = "http://localhost:8000/";
-const token = localStorage.localJWT;
 
 // コンポーネントからユーザーの入力した情報(auth)を受け取り引数として渡す
 export const fetchAsyncLogin = createAsyncThunk("login/post", async (auth) => {
@@ -81,8 +80,8 @@ const loginSlice = createSlice({
     isLoginView: true,
     // ログインしているユーザーの情報をstate
     profile: {
-      id: "",
-      username: "",
+      id: localStorage.id,
+      username: localStorage.username,
     },
     error: "",
     // *stateの中身-------------------------
@@ -110,6 +109,7 @@ const loginSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchAsyncLogin.fulfilled, (state, action) => {
       localStorage.setItem("localJWT", action.payload.access);
+      state.authen.password = '';
       state.authen.tokenState = true;
     });
     builder.addCase(fetchAsyncLogin.rejected, (state, action) => {
@@ -124,9 +124,13 @@ const loginSlice = createSlice({
       }
     });
     builder.addCase(fetchAsyncProf.fulfilled, (state, action) => {
-      state.profile = action.payload;
+      state.profile.id = action.payload[0].id;
+      state.profile.username = action.payload[0].username;
+      localStorage.setItem("id", action.payload.[0].id);
+      localStorage.setItem("username", action.payload.[0].username);
     });
     builder.addCase(fetchAsyncGetTokeState.fulfilled, (state, action) => {
+      console.log(action.payload);
       state.tokenState = true;
     });
     builder.addCase(fetchAsyncGetTokeState.rejected, (state, action) => {

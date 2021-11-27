@@ -14,11 +14,12 @@ import {
   editMainDiaryText,
   createAsyncMainDiary,
   saveAsyncMainDiary,
-  fetchAsyncMainDiary,
 } from "../slices/DiarySlice";
+import { selectProfile } from "../slices/loginSlice";
 
 const MainDiary = () => {
   const dispatch = useDispatch();
+  const userId = useSelector(selectProfile);
   const mainId = useSelector(selectMainId);
   const mainTitle = useSelector(selectMainTitle);
   const mainText = useSelector(selectMainText);
@@ -32,6 +33,7 @@ const MainDiary = () => {
   const clickSaveButton = () => {
     const params = {
       id: mainId,
+      user_diary: userId[0].id,
       title: mainTitle,
       text: mainText,
       display_date: mainDate,
@@ -40,10 +42,7 @@ const MainDiary = () => {
       ? dispatch(saveAsyncMainDiary(params))
       : dispatch(createAsyncMainDiary(params));
   };
-  console.log(mainId);
-  console.log(mainTitle);
-  console.log(mainText);
-  console.log(mainDate);
+
   return (
     <>
       <MainTag>Title</MainTag>

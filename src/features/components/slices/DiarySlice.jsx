@@ -1,14 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const apiUrl = "http://localhost:8000/api/diary/";
-const token = localStorage.localJWT;
-
-const date = new Date();
-const year = date.getFullYear();
-const month = ("0" + (date.getMonth() + 1)).slice(-2);
-const day = ("0" + date.getDate()).slice(-2);
-const strDate = `${year}-${month}-${day}`;
+const apiUrl = "http://localhost:8000/api/";
 
 export const fetchAsyncMainDiary = createAsyncThunk(
   "mainDiary/get",
@@ -16,10 +9,10 @@ export const fetchAsyncMainDiary = createAsyncThunk(
     const params = {
       display_date: date,
     };
-    const res = await axios.get(apiUrl, {
+    const res = await axios.get(`${apiUrl}diary/`, {
       params,
       headers: {
-        Authorization: `JWT ${token}`,
+        Authorization: `JWT ${localStorage.localJWT}`,
         "Content-Type": "application/json",
       },
     });
@@ -30,9 +23,10 @@ export const fetchAsyncMainDiary = createAsyncThunk(
 export const createAsyncMainDiary = createAsyncThunk(
   "mainDiary/post",
   async (params) => {
-    const res = await axios.post(apiUrl, params, {
+    console.log(params);
+    const res = await axios.post(`${apiUrl}diary/`, params, {
       headers: {
-        Authorization: `JWT ${token}`,
+        Authorization: `JWT ${localStorage.localJWT}`,
         "Content-Type": "application/json",
       },
     });
@@ -43,9 +37,21 @@ export const createAsyncMainDiary = createAsyncThunk(
 export const saveAsyncMainDiary = createAsyncThunk(
   "mainDiary/put",
   async (params) => {
-    const res = await axios.put(`${apiUrl}${params.id}/`, params, {
+    await axios.put(`${`${apiUrl}diary/`}${params.id}/`, params, {
       headers: {
-        Authorization: `JWT ${token}`,
+        Authorization: `JWT ${localStorage.localJWT}`,
+        "Content-Type": "application/json",
+      },
+    });
+  }
+);
+
+export const fetchAsyncSubDiaryDay01 = createAsyncThunk(
+  "subDiaryDay01/get",
+  async (id) => {
+    const res = await axios.get(`${apiUrl}page/${id}/`, {
+      headers: {
+        Authorization: `JWT ${localStorage.localJWT}`,
         "Content-Type": "application/json",
       },
     });
@@ -53,15 +59,12 @@ export const saveAsyncMainDiary = createAsyncThunk(
   }
 );
 
-export const fetchAsyncSubDiary = createAsyncThunk(
-  "subDiary/get",
-  async (date) => {
-    const res = await axios.get(apiUrl, {
-      params: {
-        display_date: date,
-      },
+export const fetchAsyncSubDiaryDay02 = createAsyncThunk(
+  "subDiaryDay02/get",
+  async (id) => {
+    const res = await axios.get(`${apiUrl}page/${id}/`, {
       headers: {
-        Authorization: `JWT ${token}`,
+        Authorization: `JWT ${localStorage.localJWT}`,
         "Content-Type": "application/json",
       },
     });
@@ -69,18 +72,119 @@ export const fetchAsyncSubDiary = createAsyncThunk(
   }
 );
 
-export const saveAsyncSubDiary = createAsyncThunk(
-  "subDiary/put",
+export const fetchAsyncSubDiaryDay03 = createAsyncThunk(
+  "subDiaryDay03/get",
+  async (id) => {
+    const res = await axios.get(`${apiUrl}page/${id}/`, {
+      headers: {
+        Authorization: `JWT ${localStorage.localJWT}`,
+        "Content-Type": "application/json",
+      },
+    });
+    return res.data;
+  }
+);
+
+export const fetchAsyncSubDiary01 = createAsyncThunk(
+  "subDiary01/get",
   async (date) => {
     const params = {
       display_date: date,
     };
-    const res = await axios.patch(apiUrl, params, {
+    const res = await axios.get(`${apiUrl}diary/`, {
+      params,
       headers: {
-        Authorization: `JWT ${token}`,
+        Authorization: `JWT ${localStorage.localJWT}`,
         "Content-Type": "application/json",
       },
     });
+    return res.data;
+  }
+);
+
+export const fetchAsyncSubDiary02 = createAsyncThunk(
+  "subDiary02/get",
+  async (date) => {
+    const params = {
+      display_date: date,
+    };
+    const res = await axios.get(`${apiUrl}diary/`, {
+      params,
+      headers: {
+        Authorization: `JWT ${localStorage.localJWT}`,
+        "Content-Type": "application/json",
+      },
+    });
+    return res.data;
+  }
+);
+
+export const fetchAsyncSubDiary03 = createAsyncThunk(
+  "subDiary03/get",
+  async (date) => {
+    const params = {
+      display_date: date,
+    };
+    const res = await axios.get(`${apiUrl}diary/`, {
+      params,
+      headers: {
+        Authorization: `JWT ${localStorage.localJWT}`,
+        "Content-Type": "application/json",
+      },
+    });
+    return res.data;
+  }
+);
+
+export const saveAsyncSubDiary01 = createAsyncThunk(
+  "subDiaryDay01/post",
+  async (params) => {
+    const res = await axios.patch(
+      `${apiUrl}page/${params.user_page}/`,
+      params,
+      {
+        headers: {
+          Authorization: `JWT ${localStorage.localJWT}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return res.data;
+  }
+);
+
+export const saveAsyncSubDiary02 = createAsyncThunk(
+  "subDiaryDay02/post",
+  async (params) => {
+    console.log(params);
+    const res = await axios.patch(
+      `${apiUrl}page/${params.user_page}/`,
+      params,
+      {
+        headers: {
+          Authorization: `JWT ${localStorage.localJWT}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return res.data;
+  }
+);
+
+export const saveAsyncSubDiary03 = createAsyncThunk(
+  "subDiaryDay03/post",
+  async (params) => {
+    console.log(params);
+    const res = await axios.patch(
+      `${apiUrl}page/${params.user_page}/`,
+      params,
+      {
+        headers: {
+          Authorization: `JWT ${localStorage.localJWT}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
     return res.data;
   }
 );
@@ -98,21 +202,19 @@ const diarySlice = createSlice({
       day: 0,
       title: "",
       text: "",
-      openModal: false,
     },
     subDiary02: {
       day: 0,
       title: "",
       text: "",
-      openModal: false,
     },
     subDiary03: {
       day: 0,
       title: "",
       text: "",
-      openModal: false,
     },
-    calendarDate: strDate,
+    openModal: false,
+    calendarDate: "",
     // *stateの中身-------------------------
   },
   reducers: {
@@ -128,25 +230,17 @@ const diarySlice = createSlice({
     editSubDiary01date(state, action) {
       state.subDiary01.day = action.payload;
     },
-    // subDiaryのモーダル表示切り替え
-    toggleSubDiary01Modal(state, action) {
-      state.subDiary01.openModal = !state.subDiary01.openModal;
-    },
     // subDiaryの振り返り日数の変更
     editSubDiary02date(state, action) {
       state.subDiary02.day = action.payload;
-    },
-    // subDiaryのモーダル表示切り替え
-    toggleSubDiary02Modal(state, action) {
-      state.subDiary02.openModal = !state.subDiary02.openModal;
     },
     // subDiaryの振り返り日数の変更
     editSubDiary03date(state, action) {
       state.subDiary03.day = action.payload;
     },
     // subDiaryのモーダル表示切り替え
-    toggleSubDiary03Modal(state, action) {
-      state.subDiary03.openModal = !state.subDiary03.openModal;
+    toggleSubDiaryModal(state, action) {
+      state.openModal = !state.openModal;
     },
     // カレンダーの選択日
     editCalendarDate(state, action) {
@@ -169,21 +263,54 @@ const diarySlice = createSlice({
     });
     builder.addCase(createAsyncMainDiary.fulfilled, (state, action) => {
       state.mainDiary.id = action.payload.id;
-      console.log(action.payload.id);
     });
-    builder.addCase(saveAsyncMainDiary.fulfilled, (state, action) => {
-      // !作成中
-      // state.mainDiary.title = action.payload;
-      console.log(action);
+    builder.addCase(fetchAsyncSubDiary01.fulfilled, (state, action) => {
+      if (action.payload[0]) {
+        const titleData = JSON.parse(action.payload[0]["title"]).blocks[0];
+        const textData = JSON.parse(action.payload[0]["text"]).blocks[0];
+        state.subDiary01.title = titleData.text;
+        state.subDiary01.text = textData.text;
+      } else {
+        state.subDiary01.title = "";
+        state.subDiary01.text = "";
+      }
     });
-    builder.addCase(fetchAsyncSubDiary.fulfilled, (state, action) => {
-      // !3つ作る？
-      state.subDiary.title = action.payload.title;
-      state.subDiary.text = action.payload.text;
+    builder.addCase(fetchAsyncSubDiary02.fulfilled, (state, action) => {
+      if (action.payload[0]) {
+        const titleData = JSON.parse(action.payload[0]["title"]).blocks[0];
+        const textData = JSON.parse(action.payload[0]["text"]).blocks[0];
+        state.subDiary02.title = titleData.text;
+        state.subDiary02.text = textData.text;
+      } else {
+        state.subDiary02.title = "";
+        state.subDiary02.text = "";
+      }
     });
-    builder.addCase(saveAsyncSubDiary.fulfilled, (state, action) => {
-      // !作成中
-      console.log("保存完了しました");
+    builder.addCase(fetchAsyncSubDiary03.fulfilled, (state, action) => {
+      if (action.payload[0]) {
+        const titleData = JSON.parse(action.payload[0]["title"]).blocks[0];
+        const textData = JSON.parse(action.payload[0]["text"]).blocks[0];
+        state.subDiary03.title = titleData.text;
+        state.subDiary03.text = textData.text;
+      } else {
+        state.subDiary03.title = "";
+        state.subDiary03.text = "";
+      }
+    });
+    builder.addCase(fetchAsyncSubDiaryDay01.fulfilled, (state, action) => {
+      const day = action.payload.history01_display_date;
+      localStorage.setItem("subDay01", day);
+      state.subDiary01.day = day;
+    });
+    builder.addCase(fetchAsyncSubDiaryDay02.fulfilled, (state, action) => {
+      const day = action.payload.history02_display_date;
+      localStorage.setItem("subDay02", day);
+      state.subDiary02.day = action.payload.history02_display_date;
+    });
+    builder.addCase(fetchAsyncSubDiaryDay03.fulfilled, (state, action) => {
+      const day = action.payload.history03_display_date;
+      localStorage.setItem("subDay03", day);
+      state.subDiary03.day = action.payload.history03_display_date;
     });
   },
 });
@@ -192,11 +319,9 @@ export const {
   editMainDiaryTitle,
   editMainDiaryText,
   editSubDiary01date,
-  toggleSubDiary01Modal,
   editSubDiary02date,
-  toggleSubDiary02Modal,
   editSubDiary03date,
-  toggleSubDiary03Modal,
+  toggleSubDiaryModal,
   editCalendarDate,
 } = diarySlice.actions;
 export const selectMainId = (state) => state.diary.mainDiary.id;
@@ -205,15 +330,13 @@ export const selectMainText = (state) => state.diary.mainDiary.text;
 export const selectSub01Day = (state) => state.diary.subDiary01.day;
 export const selectSub01Title = (state) => state.diary.subDiary01.title;
 export const selectSub01Text = (state) => state.diary.subDiary01.text;
-export const selectSub01Modal = (state) => state.diary.subDiary01.openModal;
 export const selectSub02Day = (state) => state.diary.subDiary02.day;
 export const selectSub02Title = (state) => state.diary.subDiary02.title;
 export const selectSub02Text = (state) => state.diary.subDiary02.text;
-export const selectSub02Modal = (state) => state.diary.subDiary02.openModal;
 export const selectSub03Day = (state) => state.diary.subDiary03.day;
 export const selectSub03Title = (state) => state.diary.subDiary03.title;
 export const selectSub03Text = (state) => state.diary.subDiary03.text;
-export const selectSub03Modal = (state) => state.diary.subDiary03.openModal;
+export const selectSubModal = (state) => state.diary.openModal;
 export const selectCalendarDate = (state) => state.diary.calendarDate;
 
 // loginSlice全体の返却(store登録用)

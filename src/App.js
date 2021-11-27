@@ -1,9 +1,9 @@
 import "./App.css";
 import React from "react";
 import Calendar from "./features/components/atoms/calendar/Calendar";
-import SubDiary from "./features/components/molecules/SubDiary";
+import SubDiary from "./features/components/organisms/SubDiary";
 import DiaryModal from "./features/components/atoms/modal/DiaryModal";
-import MainDiary from "./features/components/molecules/MainDiary";
+import MainDiary from "./features/components/pages/Diary";
 import BaseNavbar from "./features/components/molecules/BaseNavbar";
 import styled from "styled-components";
 import Grid from "@material-ui/core/Grid";
@@ -12,26 +12,10 @@ const App = () => {
   return (
     <>
       <BaseNavbar />
-      <StylePosition>
-        <Grid container alignItems="center" spacing={2}>
-          <Grid item xs={12} sm={6} lg={3}>
-            <Calendar />
-          </Grid>
-          <Grid item xs={12} sm={6} lg={3}>
-            <SubDiary />
-          </Grid>
-          <Grid item xs={12} sm={6} lg={3}>
-            <SubDiary />
-          </Grid>
-          <Grid item xs={12} sm={6} lg={3}>
-            <SubDiary />
-          </Grid>
-        </Grid>
-        <DiaryModal />
-        <div style={{ margin: "20px", padding: "20px 0px" }}>
-          <MainDiary />
-        </div>
-      </StylePosition>
+      <DiaryModal />
+      <div style={{ margin: "20px", padding: "20px 0px" }}>
+        <MainDiary />
+      </div>
     </>
   );
 };

@@ -1,29 +1,44 @@
 import TextField from "@mui/material/TextField";
 import styled from "styled-components";
+import { useState, useEffect } from "react";
 
-const IntText = () => {
+const IntText = ({ onChange, defaultValue }) => {
+  const [day, setDay] = useState(0);
+  const getDay = (e) => {
+    setDay(e.target.value);
+  };
+
+  useEffect(() => {
+    if (day !== 0 && day !== undefined) {
+      onChange(day);
+    }
+  }, [day]);
+
+  useEffect(() => {
+    if (defaultValue !== day && defaultValue !== undefined) {
+      setDay(defaultValue);
+    }
+  }, [defaultValue]);
+
   return (
     <>
       <StyledTextField
         id="outlined-number"
         label="Day"
-        defaultValue="0"
         type="number"
-        // variant="filled"
         inputProps={{
           min: 0,
           max: 366,
           pattern: "[0-9]|[1-9][0-9]|[1-2][0-9]{2}|3[0-5][0-9]|36[0-6]",
         }}
+        value={day}
+        onChange={getDay}
       />
     </>
   );
 };
 
 const StyledTextField = styled(TextField)`
-  /* label.Mui-focused {
-    color: #b04cdf;
-  } */
   fieldset {
     border-radius: 40px 0px 0px 0px;
   }

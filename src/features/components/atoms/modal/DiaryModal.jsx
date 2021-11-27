@@ -4,6 +4,8 @@ import BaseButton from "../button/BaseButton";
 import ModalTitlesub from "./ModalTitlesub";
 import ModalTextsub from "./ModalTextsub";
 import styled from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
+import { selectSubModal, toggleSubDiaryModal } from "../../slices/DiarySlice";
 
 const customStyles = {
   overlay: {
@@ -20,7 +22,7 @@ const customStyles = {
     bottom: "auto",
     padding: "0",
     width: "80%",
-    height: "100vh",
+    // height: "100vh",
     marginTop: "100px",
     border: "none",
     background: "transparent",
@@ -31,21 +33,22 @@ const customStyles = {
   },
 };
 
-const StylePosition = styled.div`
-  position: fixed;
-  top: 50px;
-`;
-
 const DiaryModal = () => {
-  const [show, setShow] = useState(false);
+  const dispatch = useDispatch();
+  const isOpenModal = useSelector(selectSubModal);
 
   const clickHandle = () => {
-    setShow(!show);
+    dispatch(toggleSubDiaryModal());
   };
 
   return (
     <div>
-      <Modal isOpen={show} style={customStyles}>
+      <Modal
+        isOpen={isOpenModal}
+        style={customStyles}
+        ariaHideApp={false}
+        onRequestClose={clickHandle}
+      >
         <StylePosition>
           <BaseButton onClick={clickHandle}>Close</BaseButton>
         </StylePosition>
@@ -57,5 +60,10 @@ const DiaryModal = () => {
     </div>
   );
 };
+
+const StylePosition = styled.div`
+  position: fixed;
+  top: 50px;
+`;
 
 export default DiaryModal;

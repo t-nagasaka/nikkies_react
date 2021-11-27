@@ -1,21 +1,21 @@
 import TextField from "@mui/material/TextField";
 import styled from "styled-components";
 
-const SubTitle = () => {
+const SubTitle = ({ title }) => {
   return (
     <>
       <StyledTextField
         // focused
         // color="primary"
+        value={title}
         id="outlined-read-only-input"
         label="Title"
-        defaultValue="Hello World"
         InputProps={{
           readOnly: true,
         }}
         //   幅調整
         style={{ width: 210 }}
-      />
+      ></StyledTextField>
     </>
   );
 };

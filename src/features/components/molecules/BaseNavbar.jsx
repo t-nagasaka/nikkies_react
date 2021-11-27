@@ -21,6 +21,8 @@ const BaseNavbar = () => {
             <NavButton
               onclick={() => {
                 localStorage.setItem("localJWT", "");
+                localStorage.setItem("id", "");
+                localStorage.setItem("username", "");
                 history.push("/");
               }}
             >

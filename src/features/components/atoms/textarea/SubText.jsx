@@ -1,14 +1,21 @@
 import TextField from "@mui/material/TextField";
 import styled from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
+import { selectSubModal, toggleSubDiaryModal } from "../../slices/DiarySlice";
 
-const SubText = () => {
+const SubText = ({ text }) => {
+  const dispatch = useDispatch();
+
+  const clickHandle = () => {
+    dispatch(toggleSubDiaryModal());
+  };
   return (
     <>
       <StyledTextField
         id="filled-multiline-static"
         multiline
         rows={7}
-        defaultValue="Default Value"
+        value={text}
         // variant="filled"
         color="primary"
         InputProps={{
@@ -16,6 +23,7 @@ const SubText = () => {
         }}
         //   幅調整
         style={{ width: 282 }}
+        onClick={clickHandle}
       />
     </>
   );
