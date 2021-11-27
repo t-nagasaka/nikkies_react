@@ -20,9 +20,12 @@ const BaseNavbar = () => {
             <NavButton>Edit</NavButton>
             <NavButton
               onclick={() => {
-                localStorage.setItem("localJWT", "");
-                localStorage.setItem("id", "");
-                localStorage.setItem("username", "");
+                localStorage.removeItem("localJWT");
+                localStorage.removeItem("id");
+                localStorage.removeItem("username");
+                localStorage.removeItem("subDay01");
+                localStorage.removeItem("subDay02");
+                localStorage.removeItem("subDay03");
                 history.push("/");
               }}
             >

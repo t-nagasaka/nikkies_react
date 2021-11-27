@@ -23,7 +23,6 @@ export const fetchAsyncMainDiary = createAsyncThunk(
 export const createAsyncMainDiary = createAsyncThunk(
   "mainDiary/post",
   async (params) => {
-    console.log(params);
     const res = await axios.post(`${apiUrl}diary/`, params, {
       headers: {
         Authorization: `JWT ${localStorage.localJWT}`,
@@ -156,7 +155,6 @@ export const saveAsyncSubDiary01 = createAsyncThunk(
 export const saveAsyncSubDiary02 = createAsyncThunk(
   "subDiaryDay02/post",
   async (params) => {
-    console.log(params);
     const res = await axios.patch(
       `${apiUrl}page/${params.user_page}/`,
       params,
@@ -174,7 +172,6 @@ export const saveAsyncSubDiary02 = createAsyncThunk(
 export const saveAsyncSubDiary03 = createAsyncThunk(
   "subDiaryDay03/post",
   async (params) => {
-    console.log(params);
     const res = await axios.patch(
       `${apiUrl}page/${params.user_page}/`,
       params,

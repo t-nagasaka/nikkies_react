@@ -10,11 +10,6 @@ import { Route, BrowserRouter, Switch } from "react-router-dom";
 import PrivateRoute from "./features/router/PrivateRoute";
 import Page404 from "./features/components/pages/Page404";
 
-import {
-  fetchAsyncGetTokeState,
-  fetchAsyncLogin,
-} from "./features/components/slices/loginSlice";
-
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>

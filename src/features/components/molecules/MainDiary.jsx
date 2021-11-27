@@ -33,7 +33,7 @@ const MainDiary = () => {
   const clickSaveButton = () => {
     const params = {
       id: mainId,
-      user_diary: userId[0].id,
+      user_diary: userId.id,
       title: mainTitle,
       text: mainText,
       display_date: mainDate,

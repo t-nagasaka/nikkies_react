@@ -8,7 +8,6 @@ import jaLocale from "date-fns/locale/ja";
 import { format } from "date-fns";
 import { useDispatch } from "react-redux";
 import { fetchAsyncMainDiary, editCalendarDate } from "../../slices/DiarySlice";
-// import arSA from "date-fns/esm/locale/ar-SA/index";
 
 const minDate = new Date("2000-01-01T00:00:00.000");
 const maxDate = new Date("2040-01-01T00:00:00.000");

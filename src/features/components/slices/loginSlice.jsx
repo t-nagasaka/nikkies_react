@@ -109,7 +109,7 @@ const loginSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchAsyncLogin.fulfilled, (state, action) => {
       localStorage.setItem("localJWT", action.payload.access);
-      state.authen.password = '';
+      state.authen.password = "";
       state.authen.tokenState = true;
     });
     builder.addCase(fetchAsyncLogin.rejected, (state, action) => {
@@ -126,8 +126,8 @@ const loginSlice = createSlice({
     builder.addCase(fetchAsyncProf.fulfilled, (state, action) => {
       state.profile.id = action.payload[0].id;
       state.profile.username = action.payload[0].username;
-      localStorage.setItem("id", action.payload.[0].id);
-      localStorage.setItem("username", action.payload.[0].username);
+      localStorage.setItem("id", action.payload[0].id);
+      localStorage.setItem("username", action.payload[0].username);
     });
     builder.addCase(fetchAsyncGetTokeState.fulfilled, (state, action) => {
       console.log(action.payload);
