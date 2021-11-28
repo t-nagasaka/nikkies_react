@@ -32,6 +32,7 @@ const IntText = ({ onChange, defaultValue }) => {
           pattern: "[0-9]|[1-9][0-9]|[1-2][0-9]{2}|3[0-5][0-9]|36[0-6]",
         }}
         value={day}
+        style={{ width: 73 }}
         onChange={getDay}
       />
     </>

@@ -9,9 +9,9 @@ const App = () => {
     <>
       <BaseNavbar />
       <DiaryModal />
-      <div style={{ margin: "20px", padding: "20px 0px" }}>
-        <MainDiary />
-      </div>
+      {/* <div style={{ margin: "20px", padding: "20px 0px" }}> */}
+      <MainDiary />
+      {/* </div> */}
     </>
   );
 };

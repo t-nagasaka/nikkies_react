@@ -57,8 +57,10 @@ const Login = () => {
   return (
     <div className={styles.containerLogin}>
       <div className={styles.appLogin}>
-        <h1>{isLoginView ? "Login" : "Register"}</h1>
-        <span>Username</span>
+        <h1 className={styles.loginTitle}>
+          {isLoginView ? "Login" : "Register"}
+        </h1>
+        <span className={styles.loginSpan}>Username</span>
         <input
           type="text"
           className={styles.inputLog}
@@ -67,7 +69,7 @@ const Login = () => {
           onChange={(e) => dispatch(editUsername(e.target.value))}
           required
         />
-        <span>Password</span>
+        <span className={styles.loginSpan}>Password</span>
         <input
           type="password"
           className={styles.inputLog}
@@ -83,11 +85,13 @@ const Login = () => {
           </BaseButton>
         </StylePosition>
         <StylePosition>
-          <span
-            className={styles.switchText}
-            onClick={() => dispatch(toggleMode())}
-          >
-            {isLoginView ? "Create Account ?" : "Back to Login"}
+          <span className={styles.loginSpan}>
+            <span
+              className={styles.switchText}
+              onClick={() => dispatch(toggleMode())}
+            >
+              {isLoginView ? "Create Account ?" : "Back to Login"}
+            </span>
           </span>
         </StylePosition>
       </div>

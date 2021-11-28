@@ -1,4 +1,3 @@
-import "./Diary.module.css";
 import { useEffect } from "react";
 import Calendar from "../atoms/calendar/Calendar";
 import SubDiary from "../organisms/SubDiary";
@@ -15,18 +14,21 @@ import {
   saveAsyncSubDiary01,
   saveAsyncSubDiary02,
   saveAsyncSubDiary03,
-  editSubDiary01date,
   selectSub01Title,
+  selectSub02Title,
+  selectSub03Title,
   selectSub01Text,
+  selectSub02Text,
+  selectSub03Text,
   fetchAsyncSubDiaryDay01,
   fetchAsyncSubDiaryDay02,
   fetchAsyncSubDiaryDay03,
+  editSubDiary01date,
   editSubDiary02date,
-  selectSub02Title,
-  selectSub02Text,
   editSubDiary03date,
-  selectSub03Title,
-  selectSub03Text,
+  editModalTitle,
+  editModalText,
+  toggleSubDiaryModal,
 } from "../slices/DiarySlice";
 import { selectProfile } from "../slices/loginSlice";
 
@@ -100,6 +102,25 @@ const Diary = () => {
     await dispatch(saveAsyncSubDiary03(params));
     await dispatch(fetchAsyncSubDiary03(strDate));
   };
+
+  const clickHandle01 = () => {
+    dispatch(editModalTitle(subTitle01));
+    dispatch(editModalText(subText01));
+    dispatch(toggleSubDiaryModal());
+  };
+
+  const clickHandle02 = () => {
+    dispatch(editModalTitle(subTitle02));
+    dispatch(editModalText(subText02));
+    dispatch(toggleSubDiaryModal());
+  };
+
+  const clickHandle03 = () => {
+    dispatch(editModalTitle(subTitle03));
+    dispatch(editModalText(subText03));
+    dispatch(toggleSubDiaryModal());
+  };
+
   return (
     <>
       <BaseNavbar />
@@ -114,6 +135,7 @@ const Diary = () => {
               title={subTitle01}
               text={subText01}
               defaultValue={localStorage.subDay01}
+              clickHandle={clickHandle01}
             />
           </Grid>
           <Grid item xs={12} sm={6} lg={3}>
@@ -122,6 +144,7 @@ const Diary = () => {
               title={subTitle02}
               text={subText02}
               defaultValue={localStorage.subDay02}
+              clickHandle={clickHandle02}
             />
           </Grid>
           <Grid item xs={12} sm={6} lg={3}>
@@ -130,6 +153,7 @@ const Diary = () => {
               title={subTitle03}
               text={subText03}
               defaultValue={localStorage.subDay03}
+              clickHandle={clickHandle03}
             />
           </Grid>
         </Grid>

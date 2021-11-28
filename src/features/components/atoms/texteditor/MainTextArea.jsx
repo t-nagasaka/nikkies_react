@@ -16,17 +16,17 @@ const MainTextArea = (props) => {
 
   const [editorState, setEditorState] = useState(initialState);
 
-  const handleKeyCommand = (DraftEditorCommand) => {
-    const newState = RichUtils.handleKeyCommand(
-      editorState,
-      DraftEditorCommand
-    );
-    if (newState) {
-      setEditorState(newState);
-      return "handle";
-    }
-    return "not-handled";
-  };
+  // const handleKeyCommand = (DraftEditorCommand) => {
+  //   const newState = RichUtils.handleKeyCommand(
+  //     editorState,
+  //     DraftEditorCommand
+  //   );
+  //   if (newState) {
+  //     setEditorState(newState);
+  //     return "handle";
+  //   }
+  //   return "not-handled";
+  // };
   const handleToggleClick = (e, inlineStyle) => {
     e.preventDefault();
     setEditorState(RichUtils.toggleInlineStyle(editorState, inlineStyle));
@@ -112,7 +112,7 @@ const MainTextArea = (props) => {
         <Editor
           editorState={editorState}
           onChange={setEditorState}
-          handleKeyCommand={handleKeyCommand}
+          // handleKeyCommand={handleKeyCommand}
         />
       </StyleTextArea>
     </>

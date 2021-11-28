@@ -1,18 +1,15 @@
-h1 {
+.loginTitle {
   color: #5890ff;
   font-weight: normal;
   text-align: center;
   margin: 10px 0px 50px 0px;
   font-weight: 600;
-  /* font-family: "Comic Neue", cursive; */
 }
-span {
+.loginSpan {
   color: 5890ff;
   font-size: 15px;
-  /* font-family: "Comic Neue", cursive; */
 }
 .containerLogin {
-  /* background-color: #292f38; */
   background-color: rgba(0, 0, 0, 0.5);
   height: 100vh;
   display: flex;
@@ -20,10 +17,9 @@ span {
   align-items: center;
 }
 .appLogin {
-  /* background-color: #555555; */
   background-color: white;
-  width: 25%;
-  min-width: 350px;
+  width: 75%;
+  max-width: 500px;
   height: 450px;
   padding: 30px;
   border-radius: 5px;
@@ -37,13 +33,10 @@ span {
   margin-right: auto;
   margin-top: 20px;
   margin-bottom: 40px;
-  /* font-family: "Comic Neue", cursive; */
-  /* background-color: #555555; */
   border: 0;
   outline: 0;
   border-bottom: 1px solid #333333;
   font-size: 1.6rem;
-  /* color: #ccc; */
 }
 .switch {
   margin: 20px;
