@@ -211,6 +211,8 @@ const diarySlice = createSlice({
       text: "",
     },
     openModal: false,
+    modalTitle: "",
+    modalText: "",
     calendarDate: "",
     // *stateの中身-------------------------
   },
@@ -243,6 +245,14 @@ const diarySlice = createSlice({
     editCalendarDate(state, action) {
       state.calendarDate = action.payload;
     },
+    // モーダルのタイトル
+    editModalTitle(state, action) {
+      state.modalTitle = action.payload;
+    },
+    // モーダルの本文
+    editModalText(state, action) {
+      state.modalText = action.payload;
+    },
   },
   // 認証成功時にトークンの返却及びindex.jsで定義したdiariesへ遷移
   extraReducers: (builder) => {
@@ -263,10 +273,14 @@ const diarySlice = createSlice({
     });
     builder.addCase(fetchAsyncSubDiary01.fulfilled, (state, action) => {
       if (action.payload[0]) {
-        const titleData = JSON.parse(action.payload[0]["title"]).blocks[0];
-        const textData = JSON.parse(action.payload[0]["text"]).blocks[0];
-        state.subDiary01.title = titleData.text;
-        state.subDiary01.text = textData.text;
+        const titles = JSON.parse(action.payload[0]["title"]).blocks;
+        const titleList = titles.map((title) => title.text);
+        const titleData = titleList.join("\n");
+        const texts = JSON.parse(action.payload[0]["text"]).blocks;
+        const textList = texts.map((text) => text.text);
+        const textData = textList.join("\n");
+        state.subDiary01.title = titleData;
+        state.subDiary01.text = textData;
       } else {
         state.subDiary01.title = "";
         state.subDiary01.text = "";
@@ -274,10 +288,14 @@ const diarySlice = createSlice({
     });
     builder.addCase(fetchAsyncSubDiary02.fulfilled, (state, action) => {
       if (action.payload[0]) {
-        const titleData = JSON.parse(action.payload[0]["title"]).blocks[0];
-        const textData = JSON.parse(action.payload[0]["text"]).blocks[0];
-        state.subDiary02.title = titleData.text;
-        state.subDiary02.text = textData.text;
+        const titles = JSON.parse(action.payload[0]["title"]).blocks;
+        const titleList = titles.map((title) => title.text);
+        const titleData = titleList.join("\n");
+        const texts = JSON.parse(action.payload[0]["text"]).blocks;
+        const textList = texts.map((text) => text.text);
+        const textData = textList.join("\n");
+        state.subDiary02.title = titleData;
+        state.subDiary02.text = textData;
       } else {
         state.subDiary02.title = "";
         state.subDiary02.text = "";
@@ -285,10 +303,14 @@ const diarySlice = createSlice({
     });
     builder.addCase(fetchAsyncSubDiary03.fulfilled, (state, action) => {
       if (action.payload[0]) {
-        const titleData = JSON.parse(action.payload[0]["title"]).blocks[0];
-        const textData = JSON.parse(action.payload[0]["text"]).blocks[0];
-        state.subDiary03.title = titleData.text;
-        state.subDiary03.text = textData.text;
+        const titles = JSON.parse(action.payload[0]["title"]).blocks;
+        const titleList = titles.map((title) => title.text);
+        const titleData = titleList.join("\n");
+        const texts = JSON.parse(action.payload[0]["text"]).blocks;
+        const textList = texts.map((text) => text.text);
+        const textData = textList.join("\n");
+        state.subDiary03.title = titleData;
+        state.subDiary03.text = textData;
       } else {
         state.subDiary03.title = "";
         state.subDiary03.text = "";
@@ -302,12 +324,12 @@ const diarySlice = createSlice({
     builder.addCase(fetchAsyncSubDiaryDay02.fulfilled, (state, action) => {
       const day = action.payload.history02_display_date;
       localStorage.setItem("subDay02", day);
-      state.subDiary02.day = action.payload.history02_display_date;
+      state.subDiary02.day = day;
     });
     builder.addCase(fetchAsyncSubDiaryDay03.fulfilled, (state, action) => {
       const day = action.payload.history03_display_date;
       localStorage.setItem("subDay03", day);
-      state.subDiary03.day = action.payload.history03_display_date;
+      state.subDiary03.day = day;
     });
   },
 });
@@ -320,6 +342,8 @@ export const {
   editSubDiary03date,
   toggleSubDiaryModal,
   editCalendarDate,
+  editModalTitle,
+  editModalText,
 } = diarySlice.actions;
 export const selectMainId = (state) => state.diary.mainDiary.id;
 export const selectMainTitle = (state) => state.diary.mainDiary.title;
@@ -335,6 +359,8 @@ export const selectSub03Title = (state) => state.diary.subDiary03.title;
 export const selectSub03Text = (state) => state.diary.subDiary03.text;
 export const selectSubModal = (state) => state.diary.openModal;
 export const selectCalendarDate = (state) => state.diary.calendarDate;
+export const selectModalTitle = (state) => state.diary.modalTitle;
+export const selectModalText = (state) => state.diary.modalText;
 
 // loginSlice全体の返却(store登録用)
 export default diarySlice.reducer;

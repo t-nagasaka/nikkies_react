@@ -1,14 +1,7 @@
 import TextField from "@mui/material/TextField";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
-import { toggleSubDiaryModal } from "../../slices/DiarySlice";
 
-const SubText = ({ text }) => {
-  const dispatch = useDispatch();
-
-  const clickHandle = () => {
-    dispatch(toggleSubDiaryModal());
-  };
+const SubText = ({ text, clickHandle }) => {
   return (
     <>
       <StyledTextField

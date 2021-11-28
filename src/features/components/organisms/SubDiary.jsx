@@ -4,7 +4,7 @@ import SubText from "../atoms/textarea/SubText";
 import SubTitle from "../atoms/textarea/SubTitle";
 import styled from "styled-components";
 
-const SubDiary = ({ onChange, title, text, defaultValue }) => {
+const SubDiary = ({ onChange, title, text, defaultValue, clickHandle }) => {
   return (
     <>
       <StylePosition>
@@ -12,12 +12,12 @@ const SubDiary = ({ onChange, title, text, defaultValue }) => {
           <IntText onChange={onChange} defaultValue={defaultValue} />
         </StyleDateSpan>
         <StyleTitleSpan>
-          <SubTitle title={title} />
+          <SubTitle title={title} clickHandle={clickHandle} />
         </StyleTitleSpan>
       </StylePosition>
       <StylePosition>
         <StyleDiv>
-          <SubText text={text} />
+          <SubText text={text} clickHandle={clickHandle} />
         </StyleDiv>
       </StylePosition>
     </>
@@ -33,18 +33,18 @@ const StylePosition = styled.div`
 
 const StyleDiv = styled.div`
   position: relative;
-  bottom: 0.75px;
+  bottom: 0.5px;
 `;
 
 const StyleDateSpan = styled.span`
   position: relative;
   left: 0.5px;
-  top: 0.75px;
+  top: 0.5px;
 `;
 const StyleTitleSpan = styled.span`
   position: relative;
   right: 0.5px;
-  top: 0.75px;
+  top: 0.5px;
 `;
 
 export default SubDiary;

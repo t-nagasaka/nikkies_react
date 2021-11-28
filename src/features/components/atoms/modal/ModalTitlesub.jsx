@@ -1,13 +1,13 @@
 import React from "react";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
+import { selectModalTitle } from "../../slices/DiarySlice";
 
 const ModalTitlesub = () => {
+  const ModalTitle = useSelector(selectModalTitle);
   return (
-    <div>
-      <StyleText>
-        今日のご飯名なんでしょうか？今日のご飯名なんでしょうか？
-        今日のご飯名なんでしょうか？今日のご飯名なんでしょうか？
-      </StyleText>
+    <div style={{ whiteSpace: "pre-line" }}>
+      <StyleText>{ModalTitle}</StyleText>
     </div>
   );
 };

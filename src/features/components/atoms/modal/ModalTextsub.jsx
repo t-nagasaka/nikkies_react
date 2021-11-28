@@ -1,48 +1,15 @@
 import React from "react";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
+import { selectModalText } from "../../slices/DiarySlice";
 
 const ModalTextsub = () => {
+  const ModalText = useSelector(selectModalText);
+  const textData = ModalText ? ModalText.replace(" v", "\n") : ModalText;
+
   return (
-    <div>
-      <StyleText>
-        今日のご飯名なんでしょうか？
-        <br />
-        今日のご飯名なんでしょうか？
-        <br />
-        今日のご飯名なんでしょうか？
-        <br />
-        今日のご飯名なんでしょうか？
-        <br />
-        今日のご飯名なんでしょうか？
-        <br />
-        今日のご飯名なんでしょうか？
-        <br />
-        今日のご飯名なんでしょうか？
-        <br />
-        今日のご飯名なんでしょうか？
-        <br />
-        今日のご飯名なんでしょうか？
-        <br />
-        今日のご飯名なんでしょうか？
-        <br />
-        今日のご飯名なんでしょうか？
-        <br />
-        今日のご飯名なんでしょうか？
-        <br />
-        今日のご飯名なんでしょうか？
-        <br />
-        今日のご飯名なんでしょうか？
-        <br />
-        今日のご飯名なんでしょうか？
-        <br />
-        今日のご飯名なんでしょうか？
-        <br />
-        今日のご飯名なんでしょうか？
-        <br />
-        今日のご飯名なんでしょうか？
-        <br />
-        今日のご飯名なんでしょうか？
-      </StyleText>
+    <div style={{ whiteSpace: "pre-line" }}>
+      <StyleText>{textData}</StyleText>
     </div>
   );
 };

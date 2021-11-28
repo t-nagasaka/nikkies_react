@@ -1,12 +1,10 @@
 import TextField from "@mui/material/TextField";
 import styled from "styled-components";
 
-const SubTitle = ({ title }) => {
+const SubTitle = ({ title, clickHandle }) => {
   return (
     <>
       <StyledTextField
-        // focused
-        // color="primary"
         value={title}
         id="outlined-read-only-input"
         label="Title"
@@ -15,6 +13,7 @@ const SubTitle = ({ title }) => {
         }}
         //   幅調整
         style={{ width: 210 }}
+        onClick={clickHandle}
       ></StyledTextField>
     </>
   );
@@ -32,6 +31,8 @@ const StyledTextField = styled(TextField)`
   }
   .MuiOutlinedInput-root {
     fieldset {
+      padding: 0;
+      margin: 0;
       border-color: #0568c5;
     }
     &:hover fieldset {
