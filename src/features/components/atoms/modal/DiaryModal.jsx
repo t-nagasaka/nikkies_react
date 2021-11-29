@@ -3,7 +3,6 @@ import Modal from "react-modal";
 import BaseButton from "../button/BaseButton";
 import ModalTitlesub from "./ModalTitlesub";
 import ModalTextsub from "./ModalTextsub";
-import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { selectSubModal, toggleSubDiaryModal } from "../../slices/DiarySlice";
 
@@ -49,21 +48,11 @@ const DiaryModal = () => {
         ariaHideApp={false}
         onRequestClose={clickHandle}
       >
-        <StylePosition>
-          <BaseButton onClick={clickHandle}>Close</BaseButton>
-        </StylePosition>
-        <ModalTitlesub></ModalTitlesub>
-        <br />
+        <ModalTitlesub onClick={clickHandle} />
         <ModalTextsub />
-        <br />
       </Modal>
     </div>
   );
 };
-
-const StylePosition = styled.div`
-  position: fixed;
-  top: 50px;
-`;
 
 export default DiaryModal;
