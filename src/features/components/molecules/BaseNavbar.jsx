@@ -1,25 +1,34 @@
 import styled from "styled-components";
 import NavButton from "../atoms/button/NavButton";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { toggleModal } from "../slices/EditSlice";
 
 const BaseNavbar = () => {
   const history = useHistory();
+  const dispatch = useDispatch();
+
   return (
     <>
       <div style={{ marginBottom: "10px" }}>
         <StyleBar>
           <StylePosition>
             <NavButton
-              onclick={() => {
+              onClick={() => {
                 window.scroll({ top: 0, behavior: "smooth" });
               }}
             >
               Nikkies
             </NavButton>
-            {/* <NavButton>About</NavButton> */}
-            <NavButton>Edit</NavButton>
             <NavButton
-              onclick={() => {
+              onClick={() => {
+                dispatch(toggleModal(true));
+              }}
+            >
+              Edit
+            </NavButton>
+            <NavButton
+              onClick={() => {
                 localStorage.removeItem("localJWT");
                 localStorage.removeItem("id");
                 localStorage.removeItem("username");

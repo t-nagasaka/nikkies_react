@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 const NavButton = (props) => {
-  const { children, onclick } = props;
-  return <StyleButton onClick={onclick}>{children}</StyleButton>;
+  const { children, onClick } = props;
+  return <StyleButton onClick={onClick}>{children}</StyleButton>;
 };
 
 const StyleButton = styled.button`

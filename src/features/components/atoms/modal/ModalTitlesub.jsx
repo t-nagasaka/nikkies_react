@@ -1,13 +1,20 @@
 import React from "react";
 import styled from "styled-components";
+import CloseButton from "../button/CloseButton";
+
 import { useSelector } from "react-redux";
 import { selectModalTitle } from "../../slices/DiarySlice";
 
-const ModalTitlesub = () => {
+const ModalTitlesub = ({ onClick }) => {
   const ModalTitle = useSelector(selectModalTitle);
   return (
     <div style={{ whiteSpace: "pre-line" }}>
-      <StyleText>{ModalTitle}</StyleText>
+      <StyleText>
+        <StylePosition>
+          <CloseButton onClick={onClick}>X</CloseButton>
+        </StylePosition>
+        {ModalTitle}
+      </StyleText>
     </div>
   );
 };
@@ -20,6 +27,10 @@ const StyleText = styled.div`
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;
   margin-bottom: 0;
+`;
+
+const StylePosition = styled.div`
+  float: right;
 `;
 
 export default ModalTitlesub;
