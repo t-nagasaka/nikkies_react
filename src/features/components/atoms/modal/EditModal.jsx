@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
 import Modal from "react-modal";
 import BaseButton from "../button/BaseButton";
+import DeleteButton from "../button/DeleteButton";
 import CloseButton from "../button/CloseButton";
 import styled from "styled-components";
 import styles from "./EditModal.module.css";
@@ -25,36 +25,24 @@ const customStyles = {
     alignItems: "center",
     maxWidth: "400px",
     maxHeight: "500px",
-    //   zIndex: "10000",
-    //   position: "relative",
     margin: "0 auto",
-
-    //   // top: "auto",
-    //   // left: "auto",
-    //   // right: "auto",
-    //   // bottom: "auto",
-    //   padding: "0",
-    //   width: "90%",
-    //   // height: "100vh",
-    //   // marginTop: "100px",
-    //   border: "none",
-    //   // background: "transparent",
-    //   color: "#000",
-    //   // transform: "translate(50%)",
-    //   // maxHeight: "calc(100vh - 200px)",
-    //   maxWidth: "720px",
   },
 };
 
 const EditModal = () => {
   const dispatch = useDispatch();
   const isOpenModal = useSelector(selectModalOpen);
+  const errorText = useSelector(selectError);
+  const isDeleteView = useSelector(selectIsDeleteView);
 
-  const [modalOpen, setModalOpen] = useState(false);
-
+  const clickEditPassword = () => {
+    dispatch(toggleModal(false));
+  };
+  const clickDeleteAccount = () => {
+    dispatch(toggleModal(false));
+  };
   const clickHandle = () => {
     dispatch(toggleModal(false));
-    setModalOpen(false);
   };
 
   // if (isLoginView) {
@@ -87,59 +75,53 @@ const EditModal = () => {
         <StylePosition>
           <CloseButton onClick={clickHandle}>X</CloseButton>
         </StylePosition>
-        {/* <div className={styles.containerLogin}> */}
-        <div className={styles.appLogin}>
-          <h1 className={styles.loginTitle}>Edit</h1>
+        <h1 className={styles.loginTitle}>
+          {isDeleteView ? <StyleNewSpan>Delete</StyleNewSpan> : "Edit"}
+        </h1>
+        <span className={styles.loginSpan}>
+          Current
+          <br />
+          Password
+        </span>
+        <input
+          type="text"
+          className={styles.inputLog}
+          name="username"
+          placeholder="現在のパスワード"
+          onChange={(e) => dispatch(editCurrentPassword(e.target.value))}
+          required
+        />
+        <span className={styles.loginSpan}>
+          {isDeleteView ? "confirm" : <StyleNewSpan>New</StyleNewSpan>}
+          <br />
+          Password
+        </span>
+        <input
+          type="password"
+          className={styles.inputLog}
+          name="password"
+          placeholder={isDeleteView ? "パスワードの再入力" : "新しいパスワード"}
+          onChange={(e) => dispatch(editNewPassword(e.target.value))}
+          required
+        />
+        <StyleErrorText>{errorText}</StyleErrorText>
+        <StyleButtonPosition>
+          {isDeleteView ? (
+            <DeleteButton onClick={clickDeleteAccount}>Delete</DeleteButton>
+          ) : (
+            <BaseButton onClick={clickEditPassword}>Edit</BaseButton>
+          )}
+        </StyleButtonPosition>
+        <StyleProfPosition>
           <span className={styles.loginSpan}>
-            Current
-            <br />
-            Password
+            <span
+              className={styles.switchText}
+              onClick={() => dispatch(toggleMode())}
+            >
+              {isDeleteView ? "Back to Edit" : "Delete Account ?"}
+            </span>
           </span>
-          <input
-            type="text"
-            className={styles.inputLog}
-            name="username"
-            placeholder="現在のパスワード"
-            // onChange={(e) => dispatch(editUsername(e.target.value))}
-            required
-          />
-          <span className={styles.loginSpan}>
-            <StyleNewSpan>New</StyleNewSpan>
-            <br />
-            Password
-          </span>
-          <input
-            type="password"
-            className={styles.inputLog}
-            name="password"
-            placeholder="新しいパスワード"
-            // onChange={(e) => dispatch(editPassword(e.target.value))}
-            required
-          />
-          <StyleErrorText>'エラー'</StyleErrorText>
-          <StyleButtonPosition>
-            {/* <BaseButton disabled={btnDisabler} onClick={login}>
-                {isLoginView ? "Login" : "Create"}
-              </BaseButton> */}
-          </StyleButtonPosition>
-          {/* <StyleProfPosition>
-              <span className={styles.loginSpan}>
-                <span
-                  className={styles.switchText}
-                  onClick={() => dispatch(toggleMode())}
-                >
-                  {isLoginView ? "Create Account ?" : "Back to Login"}
-                </span>
-              </span>
-            </StyleProfPosition> */}
-          <StyleButtonPosition>
-            <BaseButton onClick={clickHandle}>Submit</BaseButton>
-          </StyleButtonPosition>
-          <StyleButtonPosition>
-            "Delete Account ?" : "Back to Edit"
-          </StyleButtonPosition>
-        </div>
-        {/* </div> */}
+        </StyleProfPosition>
       </Modal>
     </>
   );

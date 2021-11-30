@@ -57,7 +57,7 @@ const editSlice = createSlice({
       state.authen.newPassword = action.payload;
     },
     toggleMode(state, action) {
-      state.isDeleteView = action.payload;
+      state.isDeleteView = !state.isDeleteView;
     },
     toggleModal(state, action) {
       state.modalOpen = action.payload;
