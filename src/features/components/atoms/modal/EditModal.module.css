@@ -5,30 +5,10 @@
   margin: 0px 0px 20px 0px;
   font-weight: 600;
 }
+
 .loginSpan {
   color: 5890ff;
   font-size: 15px;
-}
-.containerLogin {
-  /* max-width: 400px; */
-
-  /* height: 100vh; */
-  /* display: flex;
-  position: absolute; */
-  /* align-items: center; */
-}
-.appLogin {
-  /* position: relative; */
-  /* justify-content: center; */
-  /* background-color: white; */
-
-  /* vertical-align: middle; */
-  /* width: 95%; */
-  /* max-width: 400px; */
-  /* height: 450px; */
-  /* padding: 30px; */
-  /* border-radius: 5px; */
-  /* box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5); */
 }
 
 .inputLog {

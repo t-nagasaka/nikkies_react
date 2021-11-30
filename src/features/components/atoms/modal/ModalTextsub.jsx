@@ -16,7 +16,7 @@ const ModalTextsub = () => {
 
 const StyleText = styled.div`
   background-color: #fff;
-  padding: 30px;
+  padding: 14px 30px 30px 30px;
   border-bottom-left-radius: 30px;
   border-bottom-right-radius: 30px;
   margin-top: -20px;

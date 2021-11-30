@@ -30,7 +30,7 @@ import {
   editModalText,
   toggleSubDiaryModal,
 } from "../slices/DiarySlice";
-import { selectProfile } from "../slices/loginSlice";
+import { selectProfile, editLoginStatus } from "../slices/loginSlice";
 
 const Diary = () => {
   const dispatch = useDispatch();
@@ -68,6 +68,7 @@ const Diary = () => {
       });
     };
     fetchSubDiaries();
+    dispatch(editLoginStatus(true));
   }, []);
 
   const changePrevDay01 = async (prevDay) => {

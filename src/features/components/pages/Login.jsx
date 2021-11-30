@@ -17,7 +17,17 @@ import {
   selectError,
   fetchAsyncProf,
   editLoginStatus,
+  selectTokenStatus,
 } from "../slices/loginSlice";
+import {
+  fetchAsyncSubDiary01,
+  fetchAsyncSubDiary02,
+  fetchAsyncSubDiary03,
+  fetchAsyncSubDiaryDay01,
+  fetchAsyncSubDiaryDay02,
+  fetchAsyncSubDiaryDay03,
+} from "../slices/DiarySlice";
+import { selectProfile } from "../slices/loginSlice";
 
 import BaseButton from "../atoms/button/BaseButton";
 
@@ -30,7 +40,19 @@ const Login = () => {
   const isLoginView = useSelector(selectIsLoginView);
   const btnDisabler = authen.username === "" || authen.password === "";
   const isErrorText = useSelector(selectError);
+  const isTokenStatus = useSelector(selectTokenStatus);
+  const userData = useSelector(selectProfile);
   const history = useHistory();
+
+  const getPrevDate = (prevDay) => {
+    let date = new Date();
+    date.setDate(date.getDate() - prevDay);
+    const year = date.getFullYear();
+    const month = ("0" + (date.getMonth() + 1)).slice(-2);
+    const day = ("0" + date.getDate()).slice(-2);
+    const strDate = `${year}-${month}-${day}`;
+    return strDate;
+  };
 
   const login = async () => {
     if (isLoginView) {
@@ -41,6 +63,20 @@ const Login = () => {
       } else {
         await dispatch(fetchAsyncProf());
         await dispatch(editLoginStatus(true));
+        if (isTokenStatus) {
+          await dispatch(fetchAsyncSubDiaryDay01(userData.id)).then(() => {
+            const strDate01 = getPrevDate(localStorage.subDay01);
+            dispatch(fetchAsyncSubDiary01(strDate01));
+          });
+          await dispatch(fetchAsyncSubDiaryDay02(userData.id)).then(() => {
+            const strDate02 = getPrevDate(localStorage.subDay02);
+            dispatch(fetchAsyncSubDiary02(strDate02));
+          });
+          await dispatch(fetchAsyncSubDiaryDay03(userData.id)).then(() => {
+            const strDate03 = getPrevDate(localStorage.subDay03);
+            dispatch(fetchAsyncSubDiary03(strDate03));
+          });
+        }
         history.push("/diaries");
       }
     } else {

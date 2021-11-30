@@ -1,6 +1,4 @@
-import { useState } from "react";
 import Modal from "react-modal";
-import BaseButton from "../button/BaseButton";
 import ModalTitlesub from "./ModalTitlesub";
 import ModalTextsub from "./ModalTextsub";
 import { useSelector, useDispatch } from "react-redux";
@@ -21,13 +19,11 @@ const customStyles = {
     bottom: "auto",
     padding: "0",
     width: "80%",
-    // height: "100vh",
-    marginTop: "100px",
+    marginTop: "50px",
     border: "none",
     background: "transparent",
     color: "#000",
-    // transform: "translate(50%)",
-    maxHeight: "calc(100vh - 200px)",
+    maxHeight: "calc(100vh - 100px)",
     maxWidth: "720px",
   },
 };
