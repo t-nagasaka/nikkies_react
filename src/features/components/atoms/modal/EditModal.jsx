@@ -1,18 +1,26 @@
 import Modal from "react-modal";
+import { useState, useEffect, forwardRef } from "react";
 import BaseButton from "../button/BaseButton";
 import DeleteButton from "../button/DeleteButton";
 import CloseButton from "../button/CloseButton";
 import styled from "styled-components";
 import styles from "./EditModal.module.css";
 import { useSelector, useDispatch } from "react-redux";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 import {
   selectModalOpen,
   selectIsDeleteView,
+  selectAuthen,
   selectError,
   editCurrentPassword,
   editNewPassword,
   toggleMode,
   toggleModal,
+  changeAsyncPassword,
+  deleteAsyncUser,
+  selectOpenSnack,
+  toggleSnack,
 } from "../../slices/EditSlice";
 
 const customStyles = {
@@ -23,47 +31,71 @@ const customStyles = {
   },
   content: {
     alignItems: "center",
-    maxWidth: "400px",
+    maxWidth: "450px",
     maxHeight: "500px",
     margin: "0 auto",
   },
 };
+
+const Alert = forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const EditModal = () => {
   const dispatch = useDispatch();
   const isOpenModal = useSelector(selectModalOpen);
   const errorText = useSelector(selectError);
   const isDeleteView = useSelector(selectIsDeleteView);
+  const fetchAuthen = useSelector(selectAuthen);
+  const isOpenSnack = useSelector(selectOpenSnack);
 
-  const clickEditPassword = () => {
-    dispatch(toggleModal(false));
-  };
-  const clickDeleteAccount = () => {
-    dispatch(toggleModal(false));
-  };
+  const [open, setOpen] = useState(false);
+  const [firstPassword, setFirstPassword] = useState("");
+  const [secondPassword, setSecondPassword] = useState("");
+
   const clickHandle = () => {
     dispatch(toggleModal(false));
+    setFirstPassword("");
+    setSecondPassword("");
   };
 
-  // if (isLoginView) {
-  //   // storeのauthen情報を引数で渡してあげる
-  //   const result = await dispatch(fetchAsyncLogin(authen));
-  //   if (!fetchAsyncLogin.fulfilled.match(result)) {
-  //     await dispatch(editError("UsernameまたはPasswordが間違っています"));
-  //   } else {
-  //     await dispatch(fetchAsyncProf());
-  //     await dispatch(editLoginStatus(true));
-  //     history.push("/diaries");
-  //   }
-  // } else {
-  //   const result = await dispatch(fetchAsyncRegister(authen));
+  const clickDeleteAccount = () => {
+    const params = {
+      current_password: fetchAuthen.currentPassword,
+    };
+    if (fetchAuthen.currentPassword === fetchAuthen.newPassword) {
+      dispatch(deleteAsyncUser(params));
+    } else {
+      alert("入力されたパスワードが同一ではありません");
+    }
+  };
 
-  //   if (fetchAsyncRegister.fulfilled.match(result)) {
-  //     await dispatch(fetchAsyncLogin(authen));
-  //   } else {
-  //     await dispatch(fetchAsyncGetError(authen));
-  //   }
-  // // }
+  const clickEditPassword = () => {
+    const params = {
+      new_password: fetchAuthen.newPassword,
+      re_new_password: fetchAuthen.newPassword,
+      current_password: fetchAuthen.currentPassword,
+    };
+    dispatch(changeAsyncPassword(params));
+  };
+
+  useEffect(() => {
+    if (isOpenSnack) {
+      setOpen(true);
+      dispatch(toggleSnack());
+    }
+  }, [isOpenSnack]);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+    setFirstPassword("");
+    setSecondPassword("");
+  };
+  const vertical = "top";
+  const horizontal = "center";
   return (
     <>
       <Modal
@@ -84,11 +116,15 @@ const EditModal = () => {
           Password
         </span>
         <input
-          type="text"
+          type="password"
           className={styles.inputLog}
-          name="username"
+          name="firstPassword"
           placeholder="現在のパスワード"
-          onChange={(e) => dispatch(editCurrentPassword(e.target.value))}
+          onChange={(e) => {
+            dispatch(editCurrentPassword(e.target.value));
+            setFirstPassword(e.target.value);
+          }}
+          value={firstPassword}
           required
         />
         <span className={styles.loginSpan}>
@@ -99,12 +135,15 @@ const EditModal = () => {
         <input
           type="password"
           className={styles.inputLog}
-          name="password"
+          name="secondPassword"
           placeholder={isDeleteView ? "パスワードの再入力" : "新しいパスワード"}
-          onChange={(e) => dispatch(editNewPassword(e.target.value))}
+          onChange={(e) => {
+            dispatch(editNewPassword(e.target.value));
+            setSecondPassword(e.target.value);
+          }}
+          value={secondPassword}
           required
         />
-        <StyleErrorText>{errorText}</StyleErrorText>
         <StyleButtonPosition>
           {isDeleteView ? (
             <DeleteButton onClick={clickDeleteAccount}>Delete</DeleteButton>
@@ -116,13 +155,30 @@ const EditModal = () => {
           <span className={styles.loginSpan}>
             <span
               className={styles.switchText}
-              onClick={() => dispatch(toggleMode())}
+              onClick={() => {
+                dispatch(toggleMode());
+                setFirstPassword("");
+                setSecondPassword("");
+              }}
             >
-              {isDeleteView ? "Back to Edit" : "Delete Account ?"}
+              {isDeleteView ? "Back to Edit" : "To Delete Account ?"}
             </span>
           </span>
         </StyleProfPosition>
+        <StyleErrorText>{errorText}</StyleErrorText>
       </Modal>
+      <Snackbar
+        zIndex={20000}
+        open={open}
+        autoHideDuration={3000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical, horizontal }}
+        key={vertical + horizontal}
+      >
+        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
+          処理が完了しました。
+        </Alert>
+      </Snackbar>
     </>
   );
 };
@@ -146,6 +202,8 @@ const StyleProfPosition = styled.div`
 `;
 
 const StyleErrorText = styled.p`
+  white-space: pre-wrap;
+  padding-top: 20px;
   margin: 0 auto;
   text-align: center;
   color: red;

@@ -3,6 +3,7 @@ import NavButton from "../atoms/button/NavButton";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { toggleModal } from "../slices/EditSlice";
+import axios from "axios";
 
 const BaseNavbar = () => {
   const history = useHistory();
