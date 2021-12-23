@@ -1,29 +1,32 @@
+import { memo } from "react";
 import TextField from "@mui/material/TextField";
 import styled from "styled-components";
 
-const SubTitle = () => {
+const SubTitle = memo(({ title, clickHandle }) => {
   return (
     <>
       <StyledTextField
-        // focused
-        // color="primary"
+        value={title}
         id="outlined-read-only-input"
-        label="title"
-        defaultValue="Hello World"
+        label="Title"
         InputProps={{
           readOnly: true,
         }}
         //   幅調整
-        style={{ width: 170 }}
-      />
+        style={{ width: 210 }}
+        onClick={clickHandle}
+      ></StyledTextField>
     </>
   );
-};
+});
 
 const StyledTextField = styled(TextField)`
-  /* label.Mui-focused {
+  .css-186xcr5 > span {
+    padding-right: 20px;
+  }
+  .MuiFilledInput-input {
     color: #b04cdf;
-  } */
+  }
   fieldset {
     border-radius: 0px 40px 0px 0px;
   }
@@ -32,6 +35,8 @@ const StyledTextField = styled(TextField)`
   }
   .MuiOutlinedInput-root {
     fieldset {
+      padding: 0;
+      margin: 0;
       border-color: #0568c5;
     }
     &:hover fieldset {

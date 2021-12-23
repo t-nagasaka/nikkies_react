@@ -1,56 +1,23 @@
+import { memo } from "react";
 import React from "react";
 import styled from "styled-components";
-import BaseButton from "../button/BaseButton";
+import { useSelector } from "react-redux";
+import { selectModalText } from "../../slices/DiarySlice";
 
-const ModalTextsub = () => {
+const ModalTextsub = memo(() => {
+  const ModalText = useSelector(selectModalText);
+  const textData = ModalText ? ModalText.replace(" v", "\n") : ModalText;
+
   return (
-    <div>
-      <StyleText>
-        今日のご飯名なんでしょうか？
-        <br />
-        今日のご飯名なんでしょうか？
-        <br />
-        今日のご飯名なんでしょうか？
-        <br />
-        今日のご飯名なんでしょうか？
-        <br />
-        今日のご飯名なんでしょうか？
-        <br />
-        今日のご飯名なんでしょうか？
-        <br />
-        今日のご飯名なんでしょうか？
-        <br />
-        今日のご飯名なんでしょうか？
-        <br />
-        今日のご飯名なんでしょうか？
-        <br />
-        今日のご飯名なんでしょうか？
-        <br />
-        今日のご飯名なんでしょうか？
-        <br />
-        今日のご飯名なんでしょうか？
-        <br />
-        今日のご飯名なんでしょうか？
-        <br />
-        今日のご飯名なんでしょうか？
-        <br />
-        今日のご飯名なんでしょうか？
-        <br />
-        今日のご飯名なんでしょうか？
-        <br />
-        今日のご飯名なんでしょうか？
-        <br />
-        今日のご飯名なんでしょうか？
-        <br />
-        今日のご飯名なんでしょうか？
-      </StyleText>
+    <div style={{ whiteSpace: "pre-line" }}>
+      <StyleText>{textData}</StyleText>
     </div>
   );
-};
+});
 
 const StyleText = styled.div`
   background-color: #fff;
-  padding: 30px;
+  padding: 14px 30px 30px 30px;
   border-bottom-left-radius: 30px;
   border-bottom-right-radius: 30px;
   margin-top: -20px;

@@ -13,7 +13,7 @@ const BaseButton = memo((props) => {
 const StyleButton = styled.button`
   position: relative;
   display: inline-block;
-  background-color: #5890ff;
+  background-color: red;
   border: none;
   font-weight: 600;
   padding: 10px 40px;

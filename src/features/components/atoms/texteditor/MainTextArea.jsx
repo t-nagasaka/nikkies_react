@@ -1,41 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect, memo } from "react";
 import {
   Editor,
   EditorState,
   RichUtils,
-  DraftEditorCommand,
   convertToRaw,
   convertFromRaw,
 } from "draft-js";
 import styled from "styled-components";
 
-const TEXT_EDITOR_ITEM = "draft-js-item";
-
-const MainTextArea = (props) => {
-  const { minHight } = props;
-  const data = localStorage.getItem(TEXT_EDITOR_ITEM);
-
-  const initialState = data
-    ? EditorState.createWithContent(convertFromRaw(JSON.parse(data)))
+const MainTextArea = memo((props) => {
+  const { minHight, textData, id, randomId, onChange } = props;
+  const initialState = id
+    ? EditorState.createWithContent(convertFromRaw(JSON.parse(textData)))
     : EditorState.createEmpty();
 
   const [editorState, setEditorState] = useState(initialState);
 
-  const handleSave = () => {
-    const data = JSON.stringify(convertToRaw(editorState.getCurrentContent()));
-    localStorage.setItem(TEXT_EDITOR_ITEM, data);
-  };
-  const handleKeyCommand = (DraftEditorCommand) => {
-    const newState = RichUtils.handleKeyCommand(
-      editorState,
-      DraftEditorCommand
-    );
-    if (newState) {
-      setEditorState(newState);
-      return "handle";
-    }
-    return "not-handled";
-  };
   const handleToggleClick = (e, inlineStyle) => {
     e.preventDefault();
     setEditorState(RichUtils.toggleInlineStyle(editorState, inlineStyle));
@@ -45,6 +25,18 @@ const MainTextArea = (props) => {
     e.preventDefault();
     setEditorState(RichUtils.toggleBlockType(editorState, blockType));
   };
+
+  useEffect(() => {
+    const data = JSON.stringify(convertToRaw(editorState.getCurrentContent()));
+    onChange(data);
+  }, [editorState]);
+
+  useEffect(() => {
+    const data = EditorState.createWithContent(
+      convertFromRaw(JSON.parse(textData))
+    );
+    setEditorState(data);
+  }, [randomId]);
 
   const BLOCK_TYPES = [
     { label: "H1", style: "header-one" },
@@ -104,12 +96,12 @@ const MainTextArea = (props) => {
         <Editor
           editorState={editorState}
           onChange={setEditorState}
-          handleKeyCommand={handleKeyCommand}
+          // handleKeyCommand={handleKeyCommand}
         />
       </StyleTextArea>
     </>
   );
-};
+});
 
 const StyleLabelBtn = styled.button`
   color: #999;

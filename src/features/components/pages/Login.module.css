@@ -1,0 +1,55 @@
+.loginTitle {
+  color: #5890ff;
+  font-weight: normal;
+  text-align: center;
+  margin: 10px 0px 50px 0px;
+  font-weight: 600;
+}
+.loginSpan {
+  color: 5890ff;
+  font-size: 15px;
+}
+.containerLogin {
+  background-color: rgba(0, 0, 0, 0.5);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.appLogin {
+  background-color: white;
+  width: 75%;
+  max-width: 400px;
+  height: 450px;
+  padding: 30px;
+  border-radius: 5px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+}
+
+.inputLog {
+  width: 85%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  margin-bottom: 40px;
+  border: 0;
+  outline: 0;
+  border-bottom: 1px solid #333333;
+  font-size: 1.2rem;
+}
+.switch {
+  margin: 20px;
+  display: block;
+  text-align: center;
+}
+
+.switchTextParent {
+  text-align: center;
+}
+
+.switchText {
+  display: inline-block;
+  text-align: center;
+  cursor: pointer;
+}

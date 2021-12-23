@@ -1,25 +1,37 @@
+import { memo } from "react";
 import React from "react";
 import styled from "styled-components";
+import CloseButton from "../button/CloseButton";
 
-const ModalTitlesub = () => {
+import { useSelector } from "react-redux";
+import { selectModalTitle } from "../../slices/DiarySlice";
+
+const ModalTitlesub = memo(({ onClick }) => {
+  const ModalTitle = useSelector(selectModalTitle);
   return (
-    <div>
+    <div style={{ whiteSpace: "pre-line" }}>
       <StyleText>
-        今日のご飯名なんでしょうか？今日のご飯名なんでしょうか？
-        今日のご飯名なんでしょうか？今日のご飯名なんでしょうか？
+        <StylePosition>
+          <CloseButton onClick={onClick}>X</CloseButton>
+        </StylePosition>
+        {ModalTitle}
       </StyleText>
     </div>
   );
-};
+});
 
 const StyleText = styled.div`
   background-color: #eaeff9;
   border-bottom: 2px solid #a3bce2;
   height: auto;
-  padding: 30px;
+  padding: 14px 30px 30px 30px;
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;
   margin-bottom: 0;
+`;
+
+const StylePosition = styled.div`
+  float: right;
 `;
 
 export default ModalTitlesub;
