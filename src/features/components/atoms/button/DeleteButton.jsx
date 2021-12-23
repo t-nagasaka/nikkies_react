@@ -1,13 +1,14 @@
+import { memo } from "react";
 import styled from "styled-components";
 
-const BaseButton = (props) => {
+const BaseButton = memo((props) => {
   const { children, onClick, disabled } = props;
   return (
     <StyleButton disabled={disabled} onClick={onClick}>
       {children}
     </StyleButton>
   );
-};
+});
 
 const StyleButton = styled.button`
   position: relative;

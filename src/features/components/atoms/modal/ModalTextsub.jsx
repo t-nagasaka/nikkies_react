@@ -1,9 +1,10 @@
+import { memo } from "react";
 import React from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { selectModalText } from "../../slices/DiarySlice";
 
-const ModalTextsub = () => {
+const ModalTextsub = memo(() => {
   const ModalText = useSelector(selectModalText);
   const textData = ModalText ? ModalText.replace(" v", "\n") : ModalText;
 
@@ -12,7 +13,7 @@ const ModalTextsub = () => {
       <StyleText>{textData}</StyleText>
     </div>
   );
-};
+});
 
 const StyleText = styled.div`
   background-color: #fff;

@@ -1,7 +1,8 @@
+import { memo } from "react";
 import TextField from "@mui/material/TextField";
 import styled from "styled-components";
 
-const SubText = ({ text, clickHandle }) => {
+const SubText = memo(({ text, clickHandle }) => {
   return (
     <>
       <StyledTextField
@@ -19,7 +20,7 @@ const SubText = ({ text, clickHandle }) => {
       />
     </>
   );
-};
+});
 
 const StyledTextField = styled(TextField)`
   .MuiOutlinedInput-input {

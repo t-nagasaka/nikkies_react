@@ -1,27 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { useHistory } from "react-router-dom";
 
 import axios from "axios";
 
 const apiUrl = "http://localhost:8000/";
-
-export const deleteAsyncUser = createAsyncThunk(
-  "userDelete/delete",
-  async (params, { rejectWithValue }) => {
-    try {
-      const myId = localStorage.id;
-      const res = await axios.delete(`${apiUrl}user/users/me/`, params, {
-        headers: {
-          Authorization: `JWT ${localStorage.localJWT}`,
-          "Content-Type": "application/json",
-        },
-      });
-      return res.data;
-    } catch (err) {
-      return rejectWithValue(err);
-    }
-  }
-);
 
 export const changeAsyncPassword = createAsyncThunk(
   "changePassword/post",
@@ -56,6 +37,7 @@ const editSlice = createSlice({
     isDeleteView: false,
     // ログインしているユーザーの情報をstate
     error: "",
+    snackTxt: "",
     openSnack: false,
   },
   // *stateの中身-------------------------
@@ -84,6 +66,12 @@ const editSlice = createSlice({
       state.openSnack = !state.openSnack;
       state.error = "";
     },
+    editSnackTxt(state, action) {
+      state.snackTxt = action.payload;
+    },
+    editError(state, action) {
+      state.error = action.payload;
+    },
   },
   // 認証成功時にトークンの返却及びindex.jsで定義したdiariesへ遷移
   extraReducers: (builder) => {
@@ -91,6 +79,7 @@ const editSlice = createSlice({
       state.authen.currentPassword = "";
       state.authen.newPassword = "";
       state.modalOpen = false;
+      state.snackTxt = "パスワードを変更しました。";
       state.openSnack = true;
     });
     builder.addCase(changeAsyncPassword.rejected, (state, action) => {
@@ -101,25 +90,6 @@ const editSlice = createSlice({
         state.error = Object.values(errorText).join("\n");
       }
     });
-    builder.addCase(deleteAsyncUser.fulfilled, (state, action) => {
-      const history = useHistory();
-      localStorage.removeItem("localJWT");
-      localStorage.removeItem("id");
-      localStorage.removeItem("username");
-      localStorage.removeItem("subDay01");
-      localStorage.removeItem("subDay02");
-      localStorage.removeItem("subDay03");
-      history.push("/");
-    });
-    builder.addCase(deleteAsyncUser.rejected, (state, action) => {
-      console.log(action.payload);
-      //   const errorText = { ...action.payload.response.data.new_password };
-      //   if (!Object.keys(errorText).length) {
-      //     state.error = "現在のパスワードが正しくありません";
-      //   } else {
-      //     state.error = Object.values(errorText).join("\n");
-      //   }
-    });
   },
 });
 
@@ -129,11 +99,14 @@ export const {
   toggleMode,
   toggleModal,
   toggleSnack,
+  editSnackTxt,
+  editError,
 } = editSlice.actions;
 export const selectAuthen = (state) => state.edit.authen;
 export const selectModalOpen = (state) => state.edit.modalOpen;
 export const selectIsDeleteView = (state) => state.edit.isDeleteView;
 export const selectError = (state) => state.edit.error;
+export const selectSnackTxt = (state) => state.edit.snackTxt;
 export const selectOpenSnack = (state) => state.edit.openSnack;
 
 export default editSlice.reducer;

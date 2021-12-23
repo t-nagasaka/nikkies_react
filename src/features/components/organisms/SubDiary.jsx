@@ -1,15 +1,15 @@
-import React from "react";
+import { memo } from "react";
 import IntText from "../atoms/textarea/IntText";
 import SubText from "../atoms/textarea/SubText";
 import SubTitle from "../atoms/textarea/SubTitle";
 import styled from "styled-components";
 
-const SubDiary = ({ onChange, title, text, defaultValue, clickHandle }) => {
+const SubDiary = memo(({ onChange, title, text, value, clickHandle }) => {
   return (
     <>
       <StylePosition>
         <StyleDateSpan>
-          <IntText onChange={onChange} defaultValue={defaultValue} />
+          <IntText onChange={onChange} defaultValue={value} />
         </StyleDateSpan>
         <StyleTitleSpan>
           <SubTitle title={title} clickHandle={clickHandle} />
@@ -22,7 +22,7 @@ const SubDiary = ({ onChange, title, text, defaultValue, clickHandle }) => {
       </StylePosition>
     </>
   );
-};
+});
 
 const StylePosition = styled.div`
   position: relative;

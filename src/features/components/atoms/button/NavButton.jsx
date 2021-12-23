@@ -1,15 +1,15 @@
+import { memo } from "react";
 import styled from "styled-components";
 
-const NavButton = (props) => {
+const NavButton = memo((props) => {
   const { children, onClick } = props;
   return <StyleButton onClick={onClick}>{children}</StyleButton>;
-};
+});
 
 const StyleButton = styled.button`
   padding: 10px 15px;
   font-size: 20px;
   background-color: rgba(0, 0, 0, 0);
-  /* padding: 0; */
   position: relative;
   display: inline-block;
   border: none;

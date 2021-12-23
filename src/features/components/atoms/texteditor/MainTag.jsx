@@ -1,14 +1,14 @@
-import React from "react";
+import { memo } from "react";
 import styled from "styled-components";
 
-const MainTag = (props) => {
+const MainTag = memo((props) => {
   const { children } = props;
   return (
     <div>
       <StyleEditorTag>{children}</StyleEditorTag>
     </div>
   );
-};
+});
 
 const StyleEditorTag = styled.span`
   position: relative;

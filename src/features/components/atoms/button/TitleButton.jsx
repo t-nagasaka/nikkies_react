@@ -1,9 +1,10 @@
+import { memo } from "react";
 import styled from "styled-components";
 
-const TitleButton = (props) => {
+const TitleButton = memo((props) => {
   const { children } = props;
   return <StyleButton>{children}</StyleButton>;
-};
+});
 
 const StyleButton = styled.button`
   position: relative;

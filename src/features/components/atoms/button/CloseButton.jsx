@@ -1,13 +1,14 @@
+import { memo } from "react";
 import styled from "styled-components";
 
-const CloseButton = (props) => {
+const CloseButton = memo((props) => {
   const { children, onClick, disabled } = props;
   return (
     <StyleButton disabled={disabled} onClick={onClick}>
       {children}
     </StyleButton>
   );
-};
+});
 
 const StyleButton = styled.button`
   font-size: 100%; /*ボタンの大きさ*/

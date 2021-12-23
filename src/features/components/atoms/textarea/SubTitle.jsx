@@ -1,7 +1,8 @@
+import { memo } from "react";
 import TextField from "@mui/material/TextField";
 import styled from "styled-components";
 
-const SubTitle = ({ title, clickHandle }) => {
+const SubTitle = memo(({ title, clickHandle }) => {
   return (
     <>
       <StyledTextField
@@ -17,12 +18,15 @@ const SubTitle = ({ title, clickHandle }) => {
       ></StyledTextField>
     </>
   );
-};
+});
 
 const StyledTextField = styled(TextField)`
-  /* label.Mui-focused {
+  .css-186xcr5 > span {
+    padding-right: 20px;
+  }
+  .MuiFilledInput-input {
     color: #b04cdf;
-  } */
+  }
   fieldset {
     border-radius: 0px 40px 0px 0px;
   }

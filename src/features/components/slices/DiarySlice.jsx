@@ -1,190 +1,254 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { EditorState, convertToRaw } from "draft-js";
 
 const apiUrl = "http://localhost:8000/api/";
 
 export const fetchAsyncMainDiary = createAsyncThunk(
   "mainDiary/get",
-  async (date) => {
-    const params = {
-      display_date: date,
-    };
-    const res = await axios.get(`${apiUrl}diary/`, {
-      params,
-      headers: {
-        Authorization: `JWT ${localStorage.localJWT}`,
-        "Content-Type": "application/json",
-      },
-    });
-    return res.data;
+  async (date, { rejectWithValue }) => {
+    try {
+      const params = {
+        display_date: date,
+      };
+      const res = await axios.get(`${apiUrl}diary/`, {
+        params,
+        headers: {
+          Authorization: `JWT ${localStorage.localJWT}`,
+          "Content-Type": "application/json",
+        },
+      });
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
   }
 );
 
 export const createAsyncMainDiary = createAsyncThunk(
   "mainDiary/post",
-  async (params) => {
-    const res = await axios.post(`${apiUrl}diary/`, params, {
-      headers: {
-        Authorization: `JWT ${localStorage.localJWT}`,
-        "Content-Type": "application/json",
-      },
-    });
-    return res.data;
+  async (params, { rejectWithValue }) => {
+    try {
+      const res = await axios.post(`${apiUrl}diary/`, params, {
+        headers: {
+          Authorization: `JWT ${localStorage.localJWT}`,
+          "Content-Type": "application/json",
+        },
+      });
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
   }
 );
 
 export const saveAsyncMainDiary = createAsyncThunk(
   "mainDiary/put",
-  async (params) => {
-    await axios.put(`${`${apiUrl}diary/`}${params.id}/`, params, {
-      headers: {
-        Authorization: `JWT ${localStorage.localJWT}`,
-        "Content-Type": "application/json",
-      },
-    });
+  async (params, { rejectWithValue }) => {
+    try {
+      const res = await axios.put(`${`${apiUrl}diary/`}${params.id}/`, params, {
+        headers: {
+          Authorization: `JWT ${localStorage.localJWT}`,
+          "Content-Type": "application/json",
+        },
+      });
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
   }
 );
 
 export const fetchAsyncSubDiaryDay01 = createAsyncThunk(
   "subDiaryDay01/get",
-  async (id) => {
-    const res = await axios.get(`${apiUrl}page/${id}/`, {
-      headers: {
-        Authorization: `JWT ${localStorage.localJWT}`,
-        "Content-Type": "application/json",
-      },
-    });
-    return res.data;
+  async (id, { rejectWithValue }) => {
+    try {
+      const res = await axios.get(`${apiUrl}page/${id}/`, {
+        headers: {
+          Authorization: `JWT ${localStorage.localJWT}`,
+          "Content-Type": "application/json",
+        },
+      });
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
   }
 );
 
 export const fetchAsyncSubDiaryDay02 = createAsyncThunk(
   "subDiaryDay02/get",
-  async (id) => {
-    const res = await axios.get(`${apiUrl}page/${id}/`, {
-      headers: {
-        Authorization: `JWT ${localStorage.localJWT}`,
-        "Content-Type": "application/json",
-      },
-    });
-    return res.data;
+  async (id, { rejectWithValue }) => {
+    try {
+      const res = await axios.get(`${apiUrl}page/${id}/`, {
+        headers: {
+          Authorization: `JWT ${localStorage.localJWT}`,
+          "Content-Type": "application/json",
+        },
+      });
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
   }
 );
 
 export const fetchAsyncSubDiaryDay03 = createAsyncThunk(
   "subDiaryDay03/get",
-  async (id) => {
-    const res = await axios.get(`${apiUrl}page/${id}/`, {
-      headers: {
-        Authorization: `JWT ${localStorage.localJWT}`,
-        "Content-Type": "application/json",
-      },
-    });
-    return res.data;
+  async (id, { rejectWithValue }) => {
+    try {
+      const res = await axios.get(`${apiUrl}page/${id}/`, {
+        headers: {
+          Authorization: `JWT ${localStorage.localJWT}`,
+          "Content-Type": "application/json",
+        },
+      });
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
   }
 );
 
 export const fetchAsyncSubDiary01 = createAsyncThunk(
   "subDiary01/get",
-  async (date) => {
-    const params = {
-      display_date: date,
-    };
-    const res = await axios.get(`${apiUrl}diary/`, {
-      params,
-      headers: {
-        Authorization: `JWT ${localStorage.localJWT}`,
-        "Content-Type": "application/json",
-      },
-    });
-    return res.data;
+  async (date, { rejectWithValue }) => {
+    try {
+      const params = {
+        display_date: date,
+      };
+      const res = await axios.get(`${apiUrl}diary/`, {
+        params,
+        headers: {
+          Authorization: `JWT ${localStorage.localJWT}`,
+          "Content-Type": "application/json",
+        },
+      });
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
   }
 );
 
 export const fetchAsyncSubDiary02 = createAsyncThunk(
   "subDiary02/get",
-  async (date) => {
+  async (date, { rejectWithValue }) => {
     const params = {
       display_date: date,
     };
-    const res = await axios.get(`${apiUrl}diary/`, {
-      params,
-      headers: {
-        Authorization: `JWT ${localStorage.localJWT}`,
-        "Content-Type": "application/json",
-      },
-    });
-    return res.data;
+    try {
+      const res = await axios.get(`${apiUrl}diary/`, {
+        params,
+        headers: {
+          Authorization: `JWT ${localStorage.localJWT}`,
+          "Content-Type": "application/json",
+        },
+      });
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
   }
 );
 
 export const fetchAsyncSubDiary03 = createAsyncThunk(
   "subDiary03/get",
-  async (date) => {
+  async (date, { rejectWithValue }) => {
     const params = {
       display_date: date,
     };
-    const res = await axios.get(`${apiUrl}diary/`, {
-      params,
-      headers: {
-        Authorization: `JWT ${localStorage.localJWT}`,
-        "Content-Type": "application/json",
-      },
-    });
-    return res.data;
+    try {
+      const res = await axios.get(`${apiUrl}diary/`, {
+        params,
+        headers: {
+          Authorization: `JWT ${localStorage.localJWT}`,
+          "Content-Type": "application/json",
+        },
+      });
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
   }
 );
 
 export const saveAsyncSubDiary01 = createAsyncThunk(
   "subDiaryDay01/post",
-  async (params) => {
-    const res = await axios.patch(
-      `${apiUrl}page/${params.user_page}/`,
-      params,
-      {
-        headers: {
-          Authorization: `JWT ${localStorage.localJWT}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    return res.data;
+  async (params, { rejectWithValue }) => {
+    try {
+      const res = await axios.patch(
+        `${apiUrl}page/${params.user_page}/`,
+        params,
+        {
+          headers: {
+            Authorization: `JWT ${localStorage.localJWT}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
   }
 );
 
 export const saveAsyncSubDiary02 = createAsyncThunk(
   "subDiaryDay02/post",
-  async (params) => {
-    const res = await axios.patch(
-      `${apiUrl}page/${params.user_page}/`,
-      params,
-      {
-        headers: {
-          Authorization: `JWT ${localStorage.localJWT}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    return res.data;
+  async (params, { rejectWithValue }) => {
+    try {
+      const res = await axios.patch(
+        `${apiUrl}page/${params.user_page}/`,
+        params,
+        {
+          headers: {
+            Authorization: `JWT ${localStorage.localJWT}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
   }
 );
 
 export const saveAsyncSubDiary03 = createAsyncThunk(
   "subDiaryDay03/post",
-  async (params) => {
-    const res = await axios.patch(
-      `${apiUrl}page/${params.user_page}/`,
-      params,
-      {
-        headers: {
-          Authorization: `JWT ${localStorage.localJWT}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    return res.data;
+  async (params, { rejectWithValue }) => {
+    try {
+      const res = await axios.patch(
+        `${apiUrl}page/${params.user_page}/`,
+        params,
+        {
+          headers: {
+            Authorization: `JWT ${localStorage.localJWT}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
   }
 );
+
+const rejectedList = [
+  createAsyncMainDiary,
+  saveAsyncMainDiary,
+  fetchAsyncSubDiaryDay01,
+  fetchAsyncSubDiaryDay02,
+  fetchAsyncSubDiaryDay03,
+  fetchAsyncSubDiary01,
+  fetchAsyncSubDiary02,
+  fetchAsyncSubDiary03,
+  saveAsyncSubDiary01,
+  saveAsyncSubDiary02,
+  saveAsyncSubDiary03,
+];
 
 const diarySlice = createSlice({
   // *stateの中身-------------------------
@@ -192,8 +256,13 @@ const diarySlice = createSlice({
   initialState: {
     mainDiary: {
       id: "",
-      title: "",
-      text: "",
+      randomId: 0,
+      title: JSON.stringify(
+        convertToRaw(EditorState.createEmpty().getCurrentContent())
+      ),
+      text: JSON.stringify(
+        convertToRaw(EditorState.createEmpty().getCurrentContent())
+      ),
     },
     subDiary01: {
       day: 0,
@@ -214,6 +283,7 @@ const diarySlice = createSlice({
     modalTitle: "",
     modalText: "",
     calendarDate: "",
+    toHome: false,
     // *stateの中身-------------------------
   },
   reducers: {
@@ -253,19 +323,28 @@ const diarySlice = createSlice({
     editModalText(state, action) {
       state.modalText = action.payload;
     },
+    toggleToHome(state) {
+      state.toHome = !state.toHome;
+    },
   },
   // 認証成功時にトークンの返却及びindex.jsで定義したdiariesへ遷移
   extraReducers: (builder) => {
     builder.addCase(fetchAsyncMainDiary.fulfilled, (state, action) => {
       if (action.payload[0]) {
         state.mainDiary.id = action.payload[0]["id"];
+        state.mainDiary.randomId = Math.floor(Math.random() * 1000000);
         state.mainDiary.title = action.payload[0]["title"];
         state.mainDiary.text = action.payload[0]["text"];
         state.calendarDate = action.payload[0]["display_date"];
       } else {
         state.mainDiary.id = "";
-        state.mainDiary.title = "";
-        state.mainDiary.text = "";
+        state.mainDiary.randomId = Math.floor(Math.random() * 1000000);
+        state.mainDiary.text = JSON.stringify(
+          convertToRaw(EditorState.createEmpty().getCurrentContent())
+        );
+        state.mainDiary.title = JSON.stringify(
+          convertToRaw(EditorState.createEmpty().getCurrentContent())
+        );
       }
     });
     builder.addCase(createAsyncMainDiary.fulfilled, (state, action) => {
@@ -331,6 +410,12 @@ const diarySlice = createSlice({
       localStorage.setItem("subDay03", day);
       state.subDiary03.day = day;
     });
+    rejectedList.map((rej) =>
+      builder.addCase(rej.rejected, (state, action) => {
+        const resStatus = action.payload.response.status;
+        state.toHome = resStatus === 401 ? true : false;
+      })
+    );
   },
 });
 
@@ -344,8 +429,10 @@ export const {
   editCalendarDate,
   editModalTitle,
   editModalText,
+  toggleToHome,
 } = diarySlice.actions;
 export const selectMainId = (state) => state.diary.mainDiary.id;
+export const selectMainRandomId = (state) => state.diary.mainDiary.randomId;
 export const selectMainTitle = (state) => state.diary.mainDiary.title;
 export const selectMainText = (state) => state.diary.mainDiary.text;
 export const selectSub01Day = (state) => state.diary.subDiary01.day;
@@ -361,6 +448,7 @@ export const selectSubModal = (state) => state.diary.openModal;
 export const selectCalendarDate = (state) => state.diary.calendarDate;
 export const selectModalTitle = (state) => state.diary.modalTitle;
 export const selectModalText = (state) => state.diary.modalText;
+export const selectToHome = (state) => state.diary.toHome;
 
 // loginSlice全体の返却(store登録用)
 export default diarySlice.reducer;

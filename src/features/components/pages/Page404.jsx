@@ -1,7 +1,7 @@
-import React from "react";
+import { memo } from "react";
 import { Link } from "react-router-dom";
 
-const Page404 = () => {
+const Page404 = memo(() => {
   return (
     <div>
       <h1>ページが見つかりませんでした。</h1>
@@ -10,6 +10,6 @@ const Page404 = () => {
       </p>
     </div>
   );
-};
+});
 
 export default Page404;
