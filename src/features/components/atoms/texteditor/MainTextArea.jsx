@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo } from "react";
 import {
   Editor,
   EditorState,
@@ -8,25 +8,14 @@ import {
 } from "draft-js";
 import styled from "styled-components";
 
-const MainTextArea = (props) => {
-  const { minHight, textData, id, onChange } = props;
+const MainTextArea = memo((props) => {
+  const { minHight, textData, id, randomId, onChange } = props;
   const initialState = id
     ? EditorState.createWithContent(convertFromRaw(JSON.parse(textData)))
     : EditorState.createEmpty();
 
   const [editorState, setEditorState] = useState(initialState);
 
-  // const handleKeyCommand = (DraftEditorCommand) => {
-  //   const newState = RichUtils.handleKeyCommand(
-  //     editorState,
-  //     DraftEditorCommand
-  //   );
-  //   if (newState) {
-  //     setEditorState(newState);
-  //     return "handle";
-  //   }
-  //   return "not-handled";
-  // };
   const handleToggleClick = (e, inlineStyle) => {
     e.preventDefault();
     setEditorState(RichUtils.toggleInlineStyle(editorState, inlineStyle));
@@ -43,16 +32,11 @@ const MainTextArea = (props) => {
   }, [editorState]);
 
   useEffect(() => {
-    if (id) {
-      const data = EditorState.createWithContent(
-        convertFromRaw(JSON.parse(textData))
-      );
-      setEditorState(data);
-    } else {
-      const data = EditorState.createEmpty();
-      setEditorState(data);
-    }
-  }, [id]);
+    const data = EditorState.createWithContent(
+      convertFromRaw(JSON.parse(textData))
+    );
+    setEditorState(data);
+  }, [randomId]);
 
   const BLOCK_TYPES = [
     { label: "H1", style: "header-one" },
@@ -117,7 +101,7 @@ const MainTextArea = (props) => {
       </StyleTextArea>
     </>
   );
-};
+});
 
 const StyleLabelBtn = styled.button`
   color: #999;

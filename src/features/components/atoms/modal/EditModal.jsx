@@ -1,4 +1,6 @@
+import { memo } from "react";
 import Modal from "react-modal";
+import { useHistory } from "react-router-dom";
 import { useState, useEffect, forwardRef } from "react";
 import BaseButton from "../button/BaseButton";
 import DeleteButton from "../button/DeleteButton";
@@ -18,10 +20,14 @@ import {
   toggleMode,
   toggleModal,
   changeAsyncPassword,
-  deleteAsyncUser,
   selectOpenSnack,
   toggleSnack,
+  selectSnackTxt,
+  editSnackTxt,
+  editError,
 } from "../../slices/EditSlice";
+import { resetState } from "../../slices/loginSlice";
+import axios from "axios";
 
 const customStyles = {
   overlay: {
@@ -41,13 +47,16 @@ const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const EditModal = () => {
+const EditModal = memo(() => {
   const dispatch = useDispatch();
+  const history = useHistory();
+
   const isOpenModal = useSelector(selectModalOpen);
   const errorText = useSelector(selectError);
   const isDeleteView = useSelector(selectIsDeleteView);
   const fetchAuthen = useSelector(selectAuthen);
   const isOpenSnack = useSelector(selectOpenSnack);
+  const fetchSnackTxt = useSelector(selectSnackTxt);
 
   const [open, setOpen] = useState(false);
   const [firstPassword, setFirstPassword] = useState("");
@@ -60,14 +69,49 @@ const EditModal = () => {
   };
 
   const clickDeleteAccount = () => {
-    const params = {
-      current_password: fetchAuthen.currentPassword,
+    const apiUrl = "http://localhost:8000/";
+    const fetchPassword = async () => {
+      if (firstPassword === secondPassword) {
+        const params = {
+          username: localStorage.username,
+          password: firstPassword,
+        };
+        await axios
+          .post(`${apiUrl}authen/jwt/create`, params, {
+            headers: {
+              Authorization: `JWT ${localStorage.localJWT}`,
+              "Content-Type": "application/json",
+            },
+          })
+          .then(() => {
+            const myId = localStorage.id;
+            axios.delete(`${apiUrl}api/user/${myId}/`, {
+              headers: {
+                Authorization: `JWT ${localStorage.localJWT}`,
+                "Content-Type": "application/json",
+              },
+            });
+          })
+          .then(() => {
+            localStorage.removeItem("localJWT");
+            localStorage.removeItem("id");
+            localStorage.removeItem("username");
+            localStorage.removeItem("subDay01");
+            localStorage.removeItem("subDay02");
+            localStorage.removeItem("subDay03");
+            dispatch(resetState());
+            dispatch(editSnackTxt("アカウントを削除しました。"));
+            history.push("/");
+            dispatch(toggleSnack());
+          })
+          .catch((e) => {
+            dispatch(editError("入力されたパスワードは正しくありません。"));
+          });
+      } else {
+        dispatch(editError("入力された2つのパスワードは同一ではありません。"));
+      }
     };
-    if (fetchAuthen.currentPassword === fetchAuthen.newPassword) {
-      dispatch(deleteAsyncUser(params));
-    } else {
-      alert("入力されたパスワードが同一ではありません");
-    }
+    fetchPassword();
   };
 
   const clickEditPassword = () => {
@@ -84,7 +128,14 @@ const EditModal = () => {
       setOpen(true);
       dispatch(toggleSnack());
     }
-  }, [isOpenSnack]);
+  }, [dispatch, isOpenSnack]);
+
+  useEffect(() => {
+    if (isOpenSnack) {
+      setOpen(true);
+      dispatch(toggleSnack());
+    }
+  }, [dispatch, isOpenSnack]);
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -96,6 +147,7 @@ const EditModal = () => {
   };
   const vertical = "top";
   const horizontal = "center";
+
   return (
     <>
       <Modal
@@ -161,27 +213,27 @@ const EditModal = () => {
                 setSecondPassword("");
               }}
             >
-              {isDeleteView ? "Back to Edit" : "To Delete Account ?"}
+              {isDeleteView ? "Back to Edit ?" : "To Delete Account ?"}
             </span>
           </span>
         </StyleProfPosition>
         <StyleErrorText>{errorText}</StyleErrorText>
       </Modal>
       <Snackbar
-        zIndex={20000}
+        zindex={1000}
         open={open}
-        autoHideDuration={3000}
+        autoHideDuration={4000}
         onClose={handleClose}
         anchorOrigin={{ vertical, horizontal }}
         key={vertical + horizontal}
       >
         <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
-          処理が完了しました。
+          {fetchSnackTxt}
         </Alert>
       </Snackbar>
     </>
   );
-};
+});
 
 const StylePosition = styled.div`
   display: flex;

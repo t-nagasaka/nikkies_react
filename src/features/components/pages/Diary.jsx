@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import { useEffect, useState, memo } from "react";
+import { useHistory } from "react-router-dom";
 import Calendar from "../atoms/calendar/Calendar";
 import SubDiary from "../organisms/SubDiary";
 import DiaryModal from "../atoms/modal/DiaryModal";
@@ -14,6 +15,9 @@ import {
   saveAsyncSubDiary01,
   saveAsyncSubDiary02,
   saveAsyncSubDiary03,
+  selectSub01Day,
+  selectSub02Day,
+  selectSub03Day,
   selectSub01Title,
   selectSub02Title,
   selectSub03Title,
@@ -29,11 +33,21 @@ import {
   editModalTitle,
   editModalText,
   toggleSubDiaryModal,
+  toggleToHome,
+  selectToHome,
 } from "../slices/DiarySlice";
-import { selectProfile, editLoginStatus } from "../slices/loginSlice";
+import {
+  selectProfile,
+  editLoginStatus,
+  resetState,
+  fetchAsyncGetTokeState,
+} from "../slices/loginSlice";
+import { editSnackTxt, toggleSnack } from "../slices/EditSlice";
 
-const Diary = () => {
+const Diary = memo(() => {
   const dispatch = useDispatch();
+  const history = useHistory();
+
   const subTitle01 = useSelector(selectSub01Title);
   const subText01 = useSelector(selectSub01Text);
   const subTitle02 = useSelector(selectSub02Title);
@@ -41,6 +55,11 @@ const Diary = () => {
   const subTitle03 = useSelector(selectSub03Title);
   const subText03 = useSelector(selectSub03Text);
   const userData = useSelector(selectProfile);
+
+  const fetchSelectSub01Day = useSelector(selectSub01Day);
+  const fetchSelectSub02Day = useSelector(selectSub02Day);
+  const fetchSelectSub03Day = useSelector(selectSub03Day);
+  const fetchToHome = useSelector(selectToHome);
 
   const getPrevDate = (prevDay) => {
     let date = new Date();
@@ -51,6 +70,10 @@ const Diary = () => {
     const strDate = `${year}-${month}-${day}`;
     return strDate;
   };
+
+  const [d1, setD1] = useState(localStorage.subDay01);
+  const [d2, setD2] = useState(localStorage.subDay02);
+  const [d3, setD3] = useState(localStorage.subDay03);
 
   useEffect(() => {
     const fetchSubDiaries = async () => {
@@ -71,37 +94,102 @@ const Diary = () => {
     dispatch(editLoginStatus(true));
   }, []);
 
+  useEffect(() => {
+    if (
+      fetchSelectSub01Day !== 0 &&
+      fetchSelectSub01Day !== localStorage.subDay01
+    ) {
+      setD1(fetchSelectSub01Day);
+    }
+  }, [fetchSelectSub01Day]);
+
+  useEffect(() => {
+    if (
+      fetchSelectSub02Day !== 0 &&
+      fetchSelectSub02Day !== localStorage.subDay02
+    ) {
+      setD2(fetchSelectSub02Day);
+    }
+  }, [fetchSelectSub02Day]);
+
+  useEffect(() => {
+    if (
+      fetchSelectSub03Day !== 0 &&
+      fetchSelectSub03Day !== localStorage.subDay03
+    ) {
+      setD3(fetchSelectSub03Day);
+    }
+  }, [fetchSelectSub03Day]);
+
+  useEffect(() => {
+    if (fetchToHome) {
+      localStorage.removeItem("localJWT");
+      localStorage.removeItem("id");
+      localStorage.removeItem("username");
+      localStorage.removeItem("subDay01");
+      localStorage.removeItem("subDay02");
+      localStorage.removeItem("subDay03");
+      dispatch(resetState());
+      dispatch(
+        editSnackTxt("認証有効期限が切れました。\n再度ログインをしてください。")
+      );
+      history.push("/");
+      dispatch(toggleSnack());
+    }
+  }, [dispatch, history, fetchToHome]);
+
   const changePrevDay01 = async (prevDay) => {
-    const strDate = getPrevDate(prevDay);
-    const params = {
-      user_page: userData.id,
-      history01_display_date: Number(prevDay),
-    };
-    await dispatch(editSubDiary01date(prevDay));
-    await dispatch(saveAsyncSubDiary01(params));
-    await dispatch(fetchAsyncSubDiary01(strDate));
+    await dispatch(fetchAsyncGetTokeState()).then((res) => {
+      if (res.type === "verify/post/fulfilled") {
+        localStorage.setItem("subDay01", prevDay);
+        const strDate = getPrevDate(prevDay);
+        const params = {
+          user_page: userData.id,
+          history01_display_date: Number(prevDay),
+        };
+        dispatch(editSubDiary01date(prevDay));
+        dispatch(saveAsyncSubDiary01(params));
+        dispatch(fetchAsyncSubDiary01(strDate));
+      } else {
+        dispatch(toggleToHome());
+      }
+    });
   };
 
   const changePrevDay02 = async (prevDay) => {
-    const strDate = getPrevDate(prevDay);
-    const params = {
-      user_page: userData.id,
-      history02_display_date: Number(prevDay),
-    };
-    await dispatch(editSubDiary02date(prevDay));
-    await dispatch(saveAsyncSubDiary02(params));
-    await dispatch(fetchAsyncSubDiary02(strDate));
+    await dispatch(fetchAsyncGetTokeState()).then((res) => {
+      if (res.type === "verify/post/fulfilled") {
+        localStorage.setItem("subDay02", prevDay);
+        const strDate = getPrevDate(prevDay);
+        const params = {
+          user_page: userData.id,
+          history02_display_date: Number(prevDay),
+        };
+        dispatch(editSubDiary02date(prevDay));
+        dispatch(saveAsyncSubDiary02(params));
+        dispatch(fetchAsyncSubDiary02(strDate));
+      } else {
+        dispatch(toggleToHome());
+      }
+    });
   };
 
   const changePrevDay03 = async (prevDay) => {
-    const strDate = getPrevDate(prevDay);
-    const params = {
-      user_page: userData.id,
-      history03_display_date: Number(prevDay),
-    };
-    await dispatch(editSubDiary03date(prevDay));
-    await dispatch(saveAsyncSubDiary03(params));
-    await dispatch(fetchAsyncSubDiary03(strDate));
+    await dispatch(fetchAsyncGetTokeState()).then((res) => {
+      if (res.type === "verify/post/fulfilled") {
+        localStorage.setItem("subDay03", prevDay);
+        const strDate = getPrevDate(prevDay);
+        const params = {
+          user_page: userData.id,
+          history03_display_date: Number(prevDay),
+        };
+        dispatch(editSubDiary03date(prevDay));
+        dispatch(saveAsyncSubDiary03(params));
+        dispatch(fetchAsyncSubDiary03(strDate));
+      } else {
+        dispatch(toggleToHome());
+      }
+    });
   };
 
   const clickHandle01 = () => {
@@ -135,7 +223,7 @@ const Diary = () => {
               onChange={changePrevDay01}
               title={subTitle01}
               text={subText01}
-              defaultValue={localStorage.subDay01}
+              value={d1}
               clickHandle={clickHandle01}
             />
           </Grid>
@@ -144,7 +232,7 @@ const Diary = () => {
               onChange={changePrevDay02}
               title={subTitle02}
               text={subText02}
-              defaultValue={localStorage.subDay02}
+              value={d2}
               clickHandle={clickHandle02}
             />
           </Grid>
@@ -153,7 +241,7 @@ const Diary = () => {
               onChange={changePrevDay03}
               title={subTitle03}
               text={subText03}
-              defaultValue={localStorage.subDay03}
+              value={d3}
               clickHandle={clickHandle03}
             />
           </Grid>
@@ -165,7 +253,7 @@ const Diary = () => {
       </StylePosition>
     </>
   );
-};
+});
 
 const StylePosition = styled.div`
   margin-top: 80px;

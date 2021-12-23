@@ -1,11 +1,12 @@
+import { memo } from "react";
 import styled from "styled-components";
 import NavButton from "../atoms/button/NavButton";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { toggleModal } from "../slices/EditSlice";
-import axios from "axios";
+import { toggleModal, editSnackTxt, toggleSnack } from "../slices/EditSlice";
+import { resetState } from "../slices/loginSlice";
 
-const BaseNavbar = () => {
+const BaseNavbar = memo(() => {
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -36,7 +37,10 @@ const BaseNavbar = () => {
                 localStorage.removeItem("subDay01");
                 localStorage.removeItem("subDay02");
                 localStorage.removeItem("subDay03");
+                dispatch(resetState());
+                dispatch(editSnackTxt("ログアウトしました。"));
                 history.push("/");
+                dispatch(toggleSnack());
               }}
             >
               Logout
@@ -46,7 +50,7 @@ const BaseNavbar = () => {
       </div>
     </>
   );
-};
+});
 
 const StyleBar = styled.div`
   z-index: 100;

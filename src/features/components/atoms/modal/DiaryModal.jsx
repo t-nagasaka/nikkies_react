@@ -1,3 +1,4 @@
+import { memo } from "react";
 import Modal from "react-modal";
 import ModalTitlesub from "./ModalTitlesub";
 import ModalTextsub from "./ModalTextsub";
@@ -28,7 +29,7 @@ const customStyles = {
   },
 };
 
-const DiaryModal = () => {
+const DiaryModal = memo(() => {
   const dispatch = useDispatch();
   const isOpenModal = useSelector(selectSubModal);
 
@@ -49,6 +50,6 @@ const DiaryModal = () => {
       </Modal>
     </div>
   );
-};
+});
 
 export default DiaryModal;

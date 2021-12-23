@@ -1,21 +1,23 @@
-import React from "react";
+import { memo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styles from "./Login.module.css";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
-
+import { useState, useEffect, forwardRef } from "react";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 import {
   editUsername,
   editPassword,
   toggleMode,
   editError,
   fetchAsyncLogin,
-  fetchAsyncGetError,
   fetchAsyncRegister,
   selectAuthen,
-  selectIsLoginView,
   selectError,
+  selectIsLoginView,
   fetchAsyncProf,
+  selectProfile,
   editLoginStatus,
   selectTokenStatus,
 } from "../slices/loginSlice";
@@ -27,11 +29,19 @@ import {
   fetchAsyncSubDiaryDay02,
   fetchAsyncSubDiaryDay03,
 } from "../slices/DiarySlice";
-import { selectProfile } from "../slices/loginSlice";
-
 import BaseButton from "../atoms/button/BaseButton";
+import {
+  selectOpenSnack,
+  toggleSnack,
+  editSnackTxt,
+  selectSnackTxt,
+} from "../slices/EditSlice";
 
-const Login = () => {
+const Alert = forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
+const Login = memo(() => {
   // useDispatchのインスタンス化
   const dispatch = useDispatch();
   // Sliceのstate(authen)を取得
@@ -43,6 +53,7 @@ const Login = () => {
   const isTokenStatus = useSelector(selectTokenStatus);
   const userData = useSelector(selectProfile);
   const history = useHistory();
+  const fetchSnackTxt = useSelector(selectSnackTxt);
 
   const getPrevDate = (prevDay) => {
     let date = new Date();
@@ -54,41 +65,66 @@ const Login = () => {
     return strDate;
   };
 
+  const isOpenSnack = useSelector(selectOpenSnack);
+
+  const [open, setOpen] = useState(false);
+
+  const loginUser = async () => {
+    await dispatch(fetchAsyncProf());
+    await dispatch(editLoginStatus(true));
+    if (isTokenStatus) {
+      await dispatch(fetchAsyncSubDiaryDay01(userData.id)).then(() => {
+        const strDate01 = getPrevDate(localStorage.subDay01);
+        dispatch(fetchAsyncSubDiary01(strDate01));
+      });
+      await dispatch(fetchAsyncSubDiaryDay02(userData.id)).then(() => {
+        const strDate02 = getPrevDate(localStorage.subDay02);
+        dispatch(fetchAsyncSubDiary02(strDate02));
+      });
+      await dispatch(fetchAsyncSubDiaryDay03(userData.id)).then(() => {
+        const strDate03 = getPrevDate(localStorage.subDay03);
+        dispatch(fetchAsyncSubDiary03(strDate03));
+      });
+    }
+    dispatch(editError(""));
+    history.push("/diaries");
+    dispatch(editSnackTxt("ログインしました。"));
+    dispatch(toggleSnack());
+  };
+
   const login = async () => {
     if (isLoginView) {
       // storeのauthen情報を引数で渡してあげる
       const result = await dispatch(fetchAsyncLogin(authen));
-      if (!fetchAsyncLogin.fulfilled.match(result)) {
-        await dispatch(editError("UsernameまたはPasswordが間違っています"));
-      } else {
-        await dispatch(fetchAsyncProf());
-        await dispatch(editLoginStatus(true));
-        if (isTokenStatus) {
-          await dispatch(fetchAsyncSubDiaryDay01(userData.id)).then(() => {
-            const strDate01 = getPrevDate(localStorage.subDay01);
-            dispatch(fetchAsyncSubDiary01(strDate01));
-          });
-          await dispatch(fetchAsyncSubDiaryDay02(userData.id)).then(() => {
-            const strDate02 = getPrevDate(localStorage.subDay02);
-            dispatch(fetchAsyncSubDiary02(strDate02));
-          });
-          await dispatch(fetchAsyncSubDiaryDay03(userData.id)).then(() => {
-            const strDate03 = getPrevDate(localStorage.subDay03);
-            dispatch(fetchAsyncSubDiary03(strDate03));
-          });
-        }
-        history.push("/diaries");
+      if (fetchAsyncLogin.fulfilled.match(result)) {
+        loginUser();
       }
     } else {
       const result = await dispatch(fetchAsyncRegister(authen));
-
       if (fetchAsyncRegister.fulfilled.match(result)) {
-        await dispatch(fetchAsyncLogin(authen));
-      } else {
-        await dispatch(fetchAsyncGetError(authen));
+        const result = await dispatch(fetchAsyncLogin(authen));
+        if (fetchAsyncLogin.fulfilled.match(result)) {
+          loginUser();
+        }
       }
     }
   };
+
+  useEffect(() => {
+    if (isOpenSnack) {
+      setOpen(true);
+      dispatch(toggleSnack());
+    }
+  }, [dispatch, isOpenSnack]);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+  const vertical = "top";
+  const horizontal = "center";
 
   return (
     <div className={styles.containerLogin}>
@@ -126,14 +162,30 @@ const Login = () => {
               className={styles.switchText}
               onClick={() => dispatch(toggleMode())}
             >
-              {isLoginView ? "Create Account ?" : "Back to Login"}
+              {isLoginView ? "Create Account ?" : "Back to Login ?"}
             </span>
           </span>
         </StylePosition>
+        <Snackbar
+          zindex={1000}
+          open={open}
+          autoHideDuration={4000}
+          onClose={handleClose}
+          anchorOrigin={{ vertical, horizontal }}
+          key={vertical + horizontal}
+        >
+          <Alert
+            onClose={handleClose}
+            severity="success"
+            sx={{ width: "100%" }}
+          >
+            <StyleSnackSpan>{fetchSnackTxt}</StyleSnackSpan>
+          </Alert>
+        </Snackbar>
       </div>
     </div>
   );
-};
+});
 
 const StylePosition = styled.div`
   position: relative;
@@ -146,6 +198,10 @@ const StyleErrorText = styled.p`
   margin: 0 auto;
   text-align: center;
   color: red;
+`;
+
+const StyleSnackSpan = styled.span`
+  white-space: pre-wrap;
 `;
 
 export default Login;

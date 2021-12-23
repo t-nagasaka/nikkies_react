@@ -1,3 +1,4 @@
+import { memo } from "react";
 import React from "react";
 import styled from "styled-components";
 import CloseButton from "../button/CloseButton";
@@ -5,7 +6,7 @@ import CloseButton from "../button/CloseButton";
 import { useSelector } from "react-redux";
 import { selectModalTitle } from "../../slices/DiarySlice";
 
-const ModalTitlesub = ({ onClick }) => {
+const ModalTitlesub = memo(({ onClick }) => {
   const ModalTitle = useSelector(selectModalTitle);
   return (
     <div style={{ whiteSpace: "pre-line" }}>
@@ -17,7 +18,7 @@ const ModalTitlesub = ({ onClick }) => {
       </StyleText>
     </div>
   );
-};
+});
 
 const StyleText = styled.div`
   background-color: #eaeff9;
