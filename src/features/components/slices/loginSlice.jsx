@@ -108,7 +108,6 @@ const loginSlice = createSlice({
       state.authen.tokenState = true;
     });
     builder.addCase(fetchAsyncLogin.rejected, (state, action) => {
-      console.log(apiUrl);
       state.error = "UsernameまたはPasswordが間違っています";
     });
     builder.addCase(fetchAsyncRegister.fulfilled, (state, action) => {
