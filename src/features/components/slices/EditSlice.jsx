@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 import axios from "axios";
 
-const apiUrl = "http://localhost:8000/";
+const apiUrl = process.env.REACT_APP_DEV_API_URL;
 
 export const changeAsyncPassword = createAsyncThunk(
   "changePassword/post",
