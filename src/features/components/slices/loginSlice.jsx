@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const apiUrl = "http://localhost:8000/";
+const apiUrl = process.env.REACT_APP_DEV_API_URL;
 
 export const fetchAsyncLogin = createAsyncThunk(
   "login/post",
@@ -108,6 +108,7 @@ const loginSlice = createSlice({
       state.authen.tokenState = true;
     });
     builder.addCase(fetchAsyncLogin.rejected, (state, action) => {
+      console.log(apiUrl);
       state.error = "UsernameまたはPasswordが間違っています";
     });
     builder.addCase(fetchAsyncRegister.fulfilled, (state, action) => {

@@ -69,7 +69,7 @@ const EditModal = memo(() => {
   };
 
   const clickDeleteAccount = () => {
-    const apiUrl = "http://localhost:8000/";
+    const apiUrl = process.env.REACT_APP_DEV_API_URL;
     const fetchPassword = async () => {
       if (firstPassword === secondPassword) {
         const params = {
