@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { EditorState, convertToRaw } from "draft-js";
 
-const apiUrl = "http://localhost:8000/api/";
+const apiUrl = `${process.env.REACT_APP_DEV_API_URL}api/`;
 
 export const fetchAsyncMainDiary = createAsyncThunk(
   "mainDiary/get",
